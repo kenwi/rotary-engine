@@ -47,6 +47,12 @@ namespace Engine.GameStates.Worlds
         {
             if (!keyDown.Contains(e.Code))
                 keyDown.Add(e.Code);
+
+            if(e.Code == Keyboard.Key.Comma || e.Code == Keyboard.Key.Period)
+            {
+                base.ZoomWindow(e.Code == Keyboard.Key.Comma ? 0.5f : 2f);
+            } 
+
         }
 
         public override void KeyReleased(RenderWindow target, object sender, KeyEventArgs e)

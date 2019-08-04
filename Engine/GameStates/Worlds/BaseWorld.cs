@@ -62,5 +62,12 @@ namespace Engine.GameStates.Worlds
             view.Move(direction);
             window.SetView(view);
         }
+
+        internal void ZoomWindow(float factor)
+        {
+            var view = window.GetView();
+            view.Zoom(factor);
+            window.SetView(view);
+        }
     }
 }
