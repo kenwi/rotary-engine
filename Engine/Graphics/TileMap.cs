@@ -15,7 +15,7 @@ namespace Engine.Graphics
         Queue<Tile> map;
         Shape collisionBox;
 
-        public TileMap(float gridSize, int width, int height)
+        public TileMap(Texture groundTexture, float gridSize, int width, int height)
         {
             gridSizeF = gridSize;
             gridSizeI = (int)gridSizeF;
@@ -24,13 +24,12 @@ namespace Engine.Graphics
             maxSizeWorldF.X = width * gridSize;
             maxSizeWorldF.Y = height * gridSize;
             map = new Queue<Tile>(width * height);
-            var texture = new Texture("Assets/ground.png");
 
             for (int i = 0; i < width * height; i++)
             {
                 var x = i % width;
                 var y = i / width;
-                var o = new Tile(x, y, gridSize, texture, new IntRect(0, 0, gridSizeI, gridSizeI));
+                var o = new Tile(x, y, gridSize, groundTexture, new IntRect(0, 0, gridSizeI, gridSizeI));
                 map.Enqueue(o);
             }
 

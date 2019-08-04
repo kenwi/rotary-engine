@@ -6,6 +6,7 @@ using SFML.Window;
 using Engine.GameStates;
 using Engine.GameStates.Worlds;
 using Engine.GameStates.Menu;
+using Engine.Managers;
 
 namespace Engine
 {
@@ -40,13 +41,14 @@ namespace Engine
 
             menu = new Menu();
             menu.Initialize(Window);
+            
         }
 
         protected override void LoadContent()
         {
-
+            AssetManager.Instance.Texture.Load(AssetManagerItemName.GroundTexture, "Assets/Ground.png");
+            AssetManager.Instance.Texture.Load(AssetManagerItemName.TreeTexture, "Assets/Tree.png");
         }
-
 
         protected override void Render()
         {

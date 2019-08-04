@@ -5,13 +5,13 @@ using SFML.System;
 
 namespace Engine.Graphics
 {
-    internal class Forest : Tree
+    sealed internal class Forest : Tree
     {
         Queue<Vector2f> forest;
         float gridSize;
     
-        public Forest(float gridSize, int width, int height, int numberOfTrees, double density) 
-            : base(1, 1, gridSize, new Texture("Assets/tree.png"), new IntRect(0, 0, 64, 96))
+        public Forest(Texture treeTexture, float gridSize, int width, int height, int numberOfTrees, double density) 
+            : base(1, 1, gridSize, treeTexture, new IntRect(0, 0, 64, 96))
         {
             this.gridSize = gridSize;
             forest = new Queue<Vector2f>();

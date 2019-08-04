@@ -6,6 +6,7 @@ using SFML.System;
 namespace Engine.GameStates.Worlds
 {
     using Engine.Graphics;
+    using Engine.Managers;
 
     internal abstract class BaseWorld : BaseGameState, IWorld
     {
@@ -14,13 +15,6 @@ namespace Engine.GameStates.Worlds
         RenderWindow window;
 
         public event EventHandler<WorldState> WorldStateChanged;
-
-        internal void MoveWindow(Vector2f direction)
-        {
-            var view = window.GetView();
-            view.Move(direction);
-            window.SetView(view);
-        }
 
         private WorldState worldState = WorldState.Default;
         public WorldState WorldState
@@ -37,8 +31,12 @@ namespace Engine.GameStates.Worlds
         {
             window = target;
             int width = 16, height = 16, gridSize = 64;
-            map = new TileMap(gridSize, width, height);
-            forest = new Forest(gridSize, width, height, 256, 0.1);
+
+            var groundTexture = AssetManager.Instance.Texture.Get(AssetManagerItemName.GroundTexture);
+            map = new TileMap(groundTexture, gridSize, width, height);
+
+            var treeTexture = AssetManager.Instance.Texture.Get(AssetManagerItemName.TreeTexture);
+            forest = new Forest(treeTexture, gridSize, width, height, 256, 0.1);
         }
 
         public virtual void Update(RenderWindow target, float deltaTime)
@@ -56,6 +54,13 @@ namespace Engine.GameStates.Worlds
                 map.Draw(target);
                 forest.Draw(target);
             }
+        }
+
+        internal void MoveWindow(Vector2f direction)
+        {
+            var view = window.GetView();
+            view.Move(direction);
+            window.SetView(view);
         }
     }
 }
