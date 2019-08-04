@@ -9,31 +9,39 @@ namespace Engine.GameStates.Worlds
     internal class World01 : BaseWorld
     {
         List<Keyboard.Key> keyDown;
+        List<Mouse.Button> mouseButtonDown;
+        private Vector2i previousMousePosition;
+        private Vector2i mouseDeltaVelocity;
 
         public override void Initialize(RenderWindow target)
         {
             keyDown = new List<Keyboard.Key>();
+            mouseButtonDown = new List<Mouse.Button>();
             base.Initialize(target);
         }
 
         private void updateCamera(float deltaTime)
         {
             var speed = 200;
-            if (keyDown.Contains(Keyboard.Key.Left))
+            if (KeyDown(Keyboard.Key.Left))
             {
                 MoveWindow(new Vector2f(-speed * deltaTime, 0));
             }
-            if (keyDown.Contains(Keyboard.Key.Right))
+            if (KeyDown(Keyboard.Key.Right))
             {
                 MoveWindow(new Vector2f(speed * deltaTime, 0));
             }
-            if (keyDown.Contains(Keyboard.Key.Up))
+            if (KeyDown(Keyboard.Key.Up))
             {
                 MoveWindow(new Vector2f(0, -speed * deltaTime));
             }
-            if (keyDown.Contains(Keyboard.Key.Down))
+            if (KeyDown(Keyboard.Key.Down))
             {
                 MoveWindow(new Vector2f(0, speed * deltaTime));
+            }
+            if(MouseDown(Mouse.Button.Left))
+            {
+                MoveWindow(new Vector2f(mouseDeltaVelocity.X, mouseDeltaVelocity.Y));
             }
         }
 
@@ -48,29 +56,39 @@ namespace Engine.GameStates.Worlds
             if (!keyDown.Contains(e.Code))
                 keyDown.Add(e.Code);
 
-            if(e.Code == Keyboard.Key.Comma || e.Code == Keyboard.Key.Period)
+            if (e.Code == Keyboard.Key.Comma || e.Code == Keyboard.Key.Period)
             {
                 base.ZoomWindow(e.Code == Keyboard.Key.Comma ? 0.5f : 2f);
-            } 
-
+            }
         }
+
+        private bool KeyDown(Keyboard.Key e) => keyDown.Contains(e);
+        private bool MouseDown(Mouse.Button e) => mouseButtonDown.Contains(e);
+        private void RemoveKey(Keyboard.Key e) => keyDown.Remove(e);
 
         public override void KeyReleased(RenderWindow target, object sender, KeyEventArgs e)
         {
-            if (keyDown.Contains(e.Code))
-                keyDown.Remove(e.Code);
+            if (KeyDown(e.Code))
+                RemoveKey(e.Code);
         }
 
         public override void MousePressed(RenderWindow window, object sender, MouseButtonEventArgs e)
         {
+            if (!mouseButtonDown.Contains(e.Button))
+                mouseButtonDown.Add(e.Button);
         }
 
         public override void MouseReleased(RenderWindow window, object sender, MouseButtonEventArgs e)
         {
+            if (mouseButtonDown.Contains(e.Button))
+                mouseButtonDown.Remove(e.Button);
         }
 
         public override void MouseMoved(RenderWindow window, object sender, MouseMoveEventArgs e)
         {
+            var currentPosition = new Vector2i(e.X, e.Y);
+            mouseDeltaVelocity = previousMousePosition - currentPosition;
+            previousMousePosition = currentPosition;
         }
     }
 }
