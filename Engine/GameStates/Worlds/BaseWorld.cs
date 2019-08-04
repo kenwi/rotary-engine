@@ -1,11 +1,11 @@
 using System;
 using SFML.Graphics;
 using SFML.Window;
+using SFML.System;
 
 namespace Engine.GameStates.Worlds
 {
     using Engine.Graphics;
-    using SFML.System;
 
     internal abstract class BaseWorld : BaseGameState, IWorld
     {
@@ -19,7 +19,7 @@ namespace Engine.GameStates.Worlds
         {
             var view = window.GetView();
             view.Move(direction);
-            window.SetView(view);            
+            window.SetView(view);
         }
 
         private WorldState worldState = WorldState.Default;
@@ -33,7 +33,7 @@ namespace Engine.GameStates.Worlds
             }
         }
 
-        public void Initialize(RenderWindow target)
+        public virtual void Initialize(RenderWindow target)
         {
             window = target;
             int width = 16, height = 16, gridSize = 64;
@@ -41,9 +41,9 @@ namespace Engine.GameStates.Worlds
             forest = new Forest(gridSize, width, height, 256, 0.1);
         }
 
-        public void Update(RenderWindow target, float deltaTime)
+        public virtual void Update(RenderWindow target, float deltaTime)
         {
-            
+
         }
 
         public abstract void KeyPressed(RenderWindow target, object sender, KeyEventArgs e);
@@ -51,7 +51,7 @@ namespace Engine.GameStates.Worlds
 
         public void Draw(RenderWindow target)
         {
-            if(WorldState == WorldState.Default)
+            if (WorldState == WorldState.Default)
             {
                 map.Draw(target);
                 forest.Draw(target);
