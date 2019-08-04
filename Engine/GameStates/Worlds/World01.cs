@@ -18,7 +18,7 @@ namespace Engine.GameStates.Worlds
 
         private void updateCamera(float deltaTime)
         {
-            var speed = 100;
+            var speed = 200;
             if (keyDown.Contains(Keyboard.Key.Left))
             {
                 MoveWindow(new Vector2f(-speed * deltaTime, 0));

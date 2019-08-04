@@ -25,6 +25,12 @@ namespace Engine
         private IGameInput GetGameInput() => world;
         protected override void KeyPressed(object sender, KeyEventArgs e)
         {
+            if(e.Code == Keyboard.Key.Escape)
+                Window.Close();
+
+            if(e.Code == Keyboard.Key.Enter)
+                gameState = gameState == MyExampleState.Game ? MyExampleState.Menu : MyExampleState.Game;
+
             GetGameInput().KeyPressed(Window, sender, e);
         }
 
@@ -41,7 +47,6 @@ namespace Engine
 
             menu = new Menu();
             menu.Initialize(Window);
-            
         }
 
         protected override void LoadContent()
