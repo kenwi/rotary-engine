@@ -12,9 +12,11 @@ namespace Engine.GameStates.Worlds
         List<Mouse.Button> mouseButtonDown;
         private Vector2i previousMousePosition;
         private Vector2i mouseDeltaVelocity;
+        private float zoomLevel;
 
         public override void Initialize(RenderWindow target)
         {
+            zoomLevel = 1;
             keyDown = new List<Keyboard.Key>();
             mouseButtonDown = new List<Mouse.Button>();
             base.Initialize(target);
@@ -58,7 +60,9 @@ namespace Engine.GameStates.Worlds
 
             if (e.Code == Keyboard.Key.Comma || e.Code == Keyboard.Key.Period)
             {
-                base.ZoomWindow(e.Code == Keyboard.Key.Comma ? 0.5f : 2f);
+                var zoomLevelDelta = e.Code == Keyboard.Key.Comma ? 0.5f : 2f;
+                zoomLevel *= zoomLevelDelta;
+                base.ZoomWindow(zoomLevelDelta);
             }
         }
 
