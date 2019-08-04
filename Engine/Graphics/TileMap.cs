@@ -8,6 +8,7 @@ namespace Engine.Graphics
     {
         int gridSizeI;
         float gridSizeF;
+        bool debug;
 
         Vector2i maxSizeWorldGrid;
         Vector2f maxSizeWorldF;
@@ -15,7 +16,7 @@ namespace Engine.Graphics
         Queue<Tile> map;
         Shape collisionBox;
 
-        public TileMap(Texture groundTexture, float gridSize, int width, int height)
+        public TileMap(Texture groundTexture, float gridSize, int width, int height, bool showBounds = false)
         {
             gridSizeF = gridSize;
             gridSizeI = (int)gridSizeF;
@@ -24,7 +25,8 @@ namespace Engine.Graphics
             maxSizeWorldF.X = width * gridSize;
             maxSizeWorldF.Y = height * gridSize;
             map = new Queue<Tile>(width * height);
-
+            debug = showBounds;
+            
             for (int i = 0; i < width * height; i++)
             {
                 var x = i % width;
@@ -45,8 +47,11 @@ namespace Engine.Graphics
         {
             foreach (var tile in map)
             {
-                collisionBox.Position = tile.Position;
-                target.Draw(collisionBox);
+                if (debug)
+                {
+                    collisionBox.Position = tile.Position;
+                    target.Draw(collisionBox);
+                }
                 tile.Render(target, null);
             }
         }
