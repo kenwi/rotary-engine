@@ -10,7 +10,7 @@ namespace Engine.GameStates.Worlds
     {
         List<Keyboard.Key> keyDown;
         List<Mouse.Button> mouseButtonDown;
-        private Vector2i previousMousePosition;
+        private Vector2i mousePreviousPosition;
         private Vector2i mouseDeltaVelocity;
         private float zoomLevel;
 
@@ -76,8 +76,8 @@ namespace Engine.GameStates.Worlds
         public override void MouseMoved(RenderWindow window, object sender, MouseMoveEventArgs e)
         {
             var currentPosition = new Vector2i(e.X, e.Y);
-            mouseDeltaVelocity = previousMousePosition - currentPosition;
-            previousMousePosition = currentPosition;
+            mouseDeltaVelocity = mousePreviousPosition - currentPosition;
+            mousePreviousPosition = currentPosition;
 
             if (MouseDown(Mouse.Button.Left))
                 MoveWindow(new Vector2f(mouseDeltaVelocity.X * zoomLevel, mouseDeltaVelocity.Y * zoomLevel));
