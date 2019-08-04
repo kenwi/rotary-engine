@@ -20,7 +20,8 @@ namespace Engine.GameStates.Worlds
         public abstract void KeyReleased(RenderWindow target, object sender, KeyEventArgs e);
         public abstract void MousePressed(RenderWindow window, object sender, MouseButtonEventArgs e);
         public abstract void MouseReleased(RenderWindow window, object sender, MouseButtonEventArgs e);
-
+        public abstract void MouseMoved(RenderWindow window, object sender, MouseMoveEventArgs e);
+ 
         private WorldState worldState = WorldState.Default;
         public WorldState WorldState
         {
@@ -72,5 +73,7 @@ namespace Engine.GameStates.Worlds
             view.Zoom(factor);
             window.SetView(view);
         }
+
+
     }
 }

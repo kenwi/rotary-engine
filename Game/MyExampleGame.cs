@@ -65,17 +65,7 @@ namespace Engine
         {
 
         }
-
-        protected override void MousePressed(object sender, MouseButtonEventArgs e)
-        {
-            GetGameInput().MousePressed(Window, sender, e);
-        }
-
-        protected override void MouseReleased(object sender, MouseButtonEventArgs e)
-        {
-            GetGameInput().MouseReleased(Window, sender, e);
-        }
-
+      
         protected override void KeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Code == Keyboard.Key.Escape)
@@ -91,5 +81,21 @@ namespace Engine
         {
             GetGameInput().KeyReleased(Window, sender, e);
         }
+
+        protected override void MousePressed(object sender, MouseButtonEventArgs e)
+        {
+            GetGameInput().MousePressed(Window, sender, e);
+        }
+
+        protected override void MouseReleased(object sender, MouseButtonEventArgs e)
+        {
+            GetGameInput().MouseReleased(Window, sender, e);
+        }
+
+        protected override void MouseMoved(object sender, MouseMoveEventArgs e)
+        {
+            GetGameInput().MouseMoved(Window, sender, e);
+        }
+
     }
 }

@@ -28,6 +28,11 @@ namespace Engine
         {
         }
 
+        protected override void MouseMoved(object sender, MouseMoveEventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
         protected override void MousePressed(object sender, MouseButtonEventArgs e)
         {
         }

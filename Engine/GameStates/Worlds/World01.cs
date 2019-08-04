@@ -68,5 +68,9 @@ namespace Engine.GameStates.Worlds
         public override void MouseReleased(RenderWindow window, object sender, MouseButtonEventArgs e)
         {
         }
+
+        public override void MouseMoved(RenderWindow window, object sender, MouseMoveEventArgs e)
+        {
+        }
     }
 }

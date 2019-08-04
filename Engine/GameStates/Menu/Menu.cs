@@ -29,6 +29,11 @@ namespace Engine.GameStates.Menu
             throw new System.NotImplementedException();
         }
 
+        public void MouseMoved(RenderWindow window, object sender, MouseMoveEventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void MousePressed(RenderWindow window, object sender, MouseButtonEventArgs e)
         {
         }

@@ -42,6 +42,7 @@ namespace Engine
             Window.Resized += (sender, arg) => Resize(arg.Width, arg.Height);
             Window.MouseButtonPressed += MousePressed;
             Window.MouseButtonReleased += MouseReleased;
+            Window.MouseMoved += MouseMoved;
 
             if(InputType == KeyboardInputType.EventBased)
             {
@@ -52,6 +53,7 @@ namespace Engine
                 throw new NotImplementedException();
             }
         }
+
 
         public void Run()
         {
@@ -97,6 +99,7 @@ namespace Engine
         protected abstract void KeyReleased(object sender, KeyEventArgs e);
         protected abstract void MousePressed(object sender, MouseButtonEventArgs e);
         protected abstract void MouseReleased(object sender, MouseButtonEventArgs e);
+        protected abstract void MouseMoved(object sender, MouseMoveEventArgs e);
 
         protected float GetFps()
         {
