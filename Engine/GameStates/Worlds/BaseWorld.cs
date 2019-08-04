@@ -30,13 +30,13 @@ namespace Engine.GameStates.Worlds
         public virtual void Initialize(RenderWindow target)
         {
             window = target;
-            int width = 16, height = 16, gridSize = 64;
+            int width = 64, height = 64, gridSize = 64;
 
             var groundTexture = AssetManager.Instance.Texture.Get(AssetManagerItemName.GroundTexture);
             map = new TileMap(groundTexture, gridSize, width, height);
 
             var treeTexture = AssetManager.Instance.Texture.Get(AssetManagerItemName.TreeTexture);
-            forest = new Forest(treeTexture, gridSize, width, height, 256, 0.1);
+            forest = new Forest(treeTexture, gridSize, width, height, width * height, 0.1);
         }
 
         public virtual void Update(RenderWindow target, float deltaTime)
