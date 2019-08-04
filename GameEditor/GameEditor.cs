@@ -28,6 +28,14 @@ namespace Engine
         {
         }
 
+        protected override void MousePressed(object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        protected override void MouseReleased(object sender, MouseButtonEventArgs e)
+        {
+        }
+
         protected override void Quit()
         {
         }

@@ -23,21 +23,6 @@ namespace Engine
         }
 
         private IGameInput GetGameInput() => world;
-        protected override void KeyPressed(object sender, KeyEventArgs e)
-        {
-            if(e.Code == Keyboard.Key.Escape)
-                Window.Close();
-
-            if(e.Code == Keyboard.Key.Enter)
-                gameState = gameState == MyExampleState.Game ? MyExampleState.Menu : MyExampleState.Game;
-
-            GetGameInput().KeyPressed(Window, sender, e);
-        }
-
-        protected override void KeyReleased(object sender, KeyEventArgs e) 
-        { 
-            GetGameInput().KeyReleased(Window, sender, e);
-        }
 
         protected override void Initialize()
         {
@@ -57,7 +42,7 @@ namespace Engine
 
         protected override void Render()
         {
-            if(gameState == MyExampleState.Game)
+            if (gameState == MyExampleState.Game)
                 world.Draw(Window);
             else
                 menu.Draw(Window);
@@ -65,7 +50,7 @@ namespace Engine
 
         protected override void Update()
         {
-            if(gameState == MyExampleState.Game)
+            if (gameState == MyExampleState.Game)
                 world.Update(Window, DeltaTime);
             else
                 menu.Update(Window, DeltaTime);
@@ -78,7 +63,33 @@ namespace Engine
 
         protected override void Resize(uint width, uint height)
         {
-            
+
+        }
+
+        protected override void MousePressed(object sender, MouseButtonEventArgs e)
+        {
+            GetGameInput().MousePressed(Window, sender, e);
+        }
+
+        protected override void MouseReleased(object sender, MouseButtonEventArgs e)
+        {
+            GetGameInput().MouseReleased(Window, sender, e);
+        }
+
+        protected override void KeyPressed(object sender, KeyEventArgs e)
+        {
+            if (e.Code == Keyboard.Key.Escape)
+                Window.Close();
+
+            if (e.Code == Keyboard.Key.Enter)
+                gameState = gameState == MyExampleState.Game ? MyExampleState.Menu : MyExampleState.Game;
+
+            GetGameInput().KeyPressed(Window, sender, e);
+        }
+
+        protected override void KeyReleased(object sender, KeyEventArgs e)
+        {
+            GetGameInput().KeyReleased(Window, sender, e);
         }
     }
 }

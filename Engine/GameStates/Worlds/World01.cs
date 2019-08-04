@@ -60,5 +60,13 @@ namespace Engine.GameStates.Worlds
             if (keyDown.Contains(e.Code))
                 keyDown.Remove(e.Code);
         }
+
+        public override void MousePressed(RenderWindow window, object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        public override void MouseReleased(RenderWindow window, object sender, MouseButtonEventArgs e)
+        {
+        }
     }
 }

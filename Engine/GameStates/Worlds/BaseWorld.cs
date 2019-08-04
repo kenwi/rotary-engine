@@ -16,6 +16,11 @@ namespace Engine.GameStates.Worlds
 
         public event EventHandler<WorldState> WorldStateChanged;
 
+        public abstract void KeyPressed(RenderWindow target, object sender, KeyEventArgs e);
+        public abstract void KeyReleased(RenderWindow target, object sender, KeyEventArgs e);
+        public abstract void MousePressed(RenderWindow window, object sender, MouseButtonEventArgs e);
+        public abstract void MouseReleased(RenderWindow window, object sender, MouseButtonEventArgs e);
+
         private WorldState worldState = WorldState.Default;
         public WorldState WorldState
         {
@@ -27,10 +32,11 @@ namespace Engine.GameStates.Worlds
             }
         }
 
+
         public virtual void Initialize(RenderWindow target)
         {
             window = target;
-            int width = 64, height = 64, gridSize = 64;
+            int width = 32, height = 32, gridSize = 64;
 
             var groundTexture = AssetManager.Instance.Texture.Get(AssetManagerItemName.GroundTexture);
             map = new TileMap(groundTexture, gridSize, width, height);
@@ -43,9 +49,6 @@ namespace Engine.GameStates.Worlds
         {
 
         }
-
-        public abstract void KeyPressed(RenderWindow target, object sender, KeyEventArgs e);
-        public abstract void KeyReleased(RenderWindow target, object sender, KeyEventArgs e);
 
         public void Draw(RenderWindow target)
         {

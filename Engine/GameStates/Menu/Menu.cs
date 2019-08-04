@@ -29,6 +29,14 @@ namespace Engine.GameStates.Menu
             throw new System.NotImplementedException();
         }
 
+        public void MousePressed(RenderWindow window, object sender, MouseButtonEventArgs e)
+        {
+        }
+
+        public void MouseReleased(RenderWindow window, object sender, MouseButtonEventArgs e)
+        {
+        }
+
         public void Update(RenderWindow target, float deltaTime)
         {
         }
