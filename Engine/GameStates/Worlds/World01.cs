@@ -25,19 +25,19 @@ namespace Engine.GameStates.Worlds
         private void updateCamera(float deltaTime)
         {
             var speed = 200;
-            if (KeyDown(Keyboard.Key.Left))
+            if (KeyPressedAndHolding(Keyboard.Key.Left))
             {
                 MoveWindow(new Vector2f(-speed * deltaTime, 0));
             }
-            if (KeyDown(Keyboard.Key.Right))
+            if (KeyPressedAndHolding(Keyboard.Key.Right))
             {
                 MoveWindow(new Vector2f(speed * deltaTime, 0));
             }
-            if (KeyDown(Keyboard.Key.Up))
+            if (KeyPressedAndHolding(Keyboard.Key.Up))
             {
                 MoveWindow(new Vector2f(0, -speed * deltaTime));
             }
-            if (KeyDown(Keyboard.Key.Down))
+            if (KeyPressedAndHolding(Keyboard.Key.Down))
             {
                 MoveWindow(new Vector2f(0, speed * deltaTime));
             }
@@ -62,26 +62,15 @@ namespace Engine.GameStates.Worlds
             }
         }
 
-        private bool KeyDown(Keyboard.Key e) => keyDown.Contains(e);
+        private bool KeyPressedAndHolding(Keyboard.Key e) => keyDown.Contains(e);
         private bool MouseDown(Mouse.Button e) => mouseButtonDown.Contains(e);
-        private void RemoveKey(Keyboard.Key e) => keyDown.Remove(e);
-
-        public override void KeyReleased(RenderWindow target, object sender, KeyEventArgs e)
-        {
-            if (KeyDown(e.Code))
-                RemoveKey(e.Code);
-        }
+        public override void MouseReleased(RenderWindow window, object sender, MouseButtonEventArgs e) => mouseButtonDown.Remove(e.Button);
+        public override void KeyReleased(RenderWindow target, object sender, KeyEventArgs e) => keyDown.Remove(e.Code);
 
         public override void MousePressed(RenderWindow window, object sender, MouseButtonEventArgs e)
         {
             if (!mouseButtonDown.Contains(e.Button))
                 mouseButtonDown.Add(e.Button);
-        }
-
-        public override void MouseReleased(RenderWindow window, object sender, MouseButtonEventArgs e)
-        {
-            if (mouseButtonDown.Contains(e.Button))
-                mouseButtonDown.Remove(e.Button);
         }
 
         public override void MouseMoved(RenderWindow window, object sender, MouseMoveEventArgs e)
