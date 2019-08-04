@@ -41,10 +41,6 @@ namespace Engine.GameStates.Worlds
             {
                 MoveWindow(new Vector2f(0, speed * deltaTime));
             }
-            if(MouseDown(Mouse.Button.Left))
-            {
-                MoveWindow(new Vector2f(mouseDeltaVelocity.X, mouseDeltaVelocity.Y));
-            }
         }
 
         public override void Update(RenderWindow target, float deltaTime)
@@ -93,6 +89,9 @@ namespace Engine.GameStates.Worlds
             var currentPosition = new Vector2i(e.X, e.Y);
             mouseDeltaVelocity = previousMousePosition - currentPosition;
             previousMousePosition = currentPosition;
+
+            if (MouseDown(Mouse.Button.Left))
+                MoveWindow(new Vector2f(mouseDeltaVelocity.X * zoomLevel, mouseDeltaVelocity.Y * zoomLevel));
         }
     }
 }
