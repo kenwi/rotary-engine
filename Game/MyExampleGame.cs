@@ -63,7 +63,9 @@ namespace Engine
 
         protected override void Resize(uint width, uint height)
         {
-
+            var view = Window.GetView();
+            view.Size = new Vector2f(width, height);
+            Window.SetView(view);
         }
       
         protected override void KeyPressed(object sender, KeyEventArgs e)
