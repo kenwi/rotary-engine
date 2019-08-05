@@ -101,5 +101,9 @@ namespace MyExampleGame
             GetGameInput().MouseMoved(Window, sender, e);
         }
 
+        protected override void MouseWheelScrolled(object sender, MouseWheelScrollEventArgs e)
+        {
+            GetGameInput().MouseWheelScrolled(Window, sender, e);
+        }
     }
 }

@@ -22,7 +22,8 @@ namespace Engine.GameStates.Worlds
         public abstract void MousePressed(RenderWindow window, object sender, MouseButtonEventArgs e);
         public abstract void MouseReleased(RenderWindow window, object sender, MouseButtonEventArgs e);
         public abstract void MouseMoved(RenderWindow window, object sender, MouseMoveEventArgs e);
- 
+        public abstract void MouseWheelScrolled(RenderWindow window, object sender, MouseWheelScrollEventArgs e);
+
         private WorldState worldState = WorldState.Default;
         public WorldState WorldState
         {
@@ -36,8 +37,8 @@ namespace Engine.GameStates.Worlds
 
         public BaseWorld()
         {
-            width = 256;
-            height = 256;
+            width = 128;
+            height = 128;
             gridSize = 64;
         }
 
@@ -78,6 +79,11 @@ namespace Engine.GameStates.Worlds
             var view = window.GetView();
             view.Zoom(factor);
             window.SetView(view);
+        }
+
+        public void MouseWheelScrolled(object sender, MouseWheelScrollEventArgs e)
+        {
+            throw new NotImplementedException();
         }
     }
 }

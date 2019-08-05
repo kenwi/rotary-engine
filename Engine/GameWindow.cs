@@ -43,6 +43,7 @@ namespace Engine
             Window.MouseButtonPressed += MousePressed;
             Window.MouseButtonReleased += MouseReleased;
             Window.MouseMoved += MouseMoved;
+            Window.MouseWheelScrolled += MouseWheelScrolled;
 
             if(InputType == KeyboardInputType.EventBased)
             {
@@ -100,6 +101,7 @@ namespace Engine
         protected abstract void MousePressed(object sender, MouseButtonEventArgs e);
         protected abstract void MouseReleased(object sender, MouseButtonEventArgs e);
         protected abstract void MouseMoved(object sender, MouseMoveEventArgs e);
+        protected abstract void MouseWheelScrolled(object sender, MouseWheelScrollEventArgs e);
 
         protected float GetFps()
         {

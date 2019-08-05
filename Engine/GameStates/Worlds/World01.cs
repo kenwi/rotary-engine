@@ -82,5 +82,12 @@ namespace Engine.GameStates.Worlds
             if (MouseDown(Mouse.Button.Left))
                 MoveWindow(new Vector2f(mouseDeltaVelocity.X * zoomLevel, mouseDeltaVelocity.Y * zoomLevel));
         }
+
+        public override void MouseWheelScrolled(RenderWindow window, object sender, MouseWheelScrollEventArgs e)
+        {
+            var zoomLevelDelta = e.Delta == 1 ? 0.5f : 2f;
+            zoomLevel *= zoomLevelDelta;
+            ZoomWindow(zoomLevelDelta);
+        }
     }
 }

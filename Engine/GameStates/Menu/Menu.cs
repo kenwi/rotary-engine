@@ -42,6 +42,16 @@ namespace Engine.GameStates.Menu
         {
         }
 
+        public void MouseWheelScrolled(object sender, MouseWheelScrollEventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void MouseWheelScrolled(RenderWindow window, object sender, MouseWheelScrollEventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public void Update(RenderWindow target, float deltaTime)
         {
         }

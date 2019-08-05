@@ -10,5 +10,6 @@ namespace Engine.GameStates
         void MousePressed(RenderWindow window, object sender, MouseButtonEventArgs e);
         void MouseReleased(RenderWindow window, object sender, MouseButtonEventArgs e);
         void MouseMoved(RenderWindow window, object sender, MouseMoveEventArgs e);
+        void MouseWheelScrolled(RenderWindow window, object sender, MouseWheelScrollEventArgs e);
     }
 }
