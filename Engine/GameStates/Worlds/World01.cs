@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Engine.GameStates.Worlds
 {
-    internal class World01 : BaseWorld
+    public class World01 : BaseWorld
     {
         List<Keyboard.Key> keyDown;
         List<Mouse.Button> mouseButtonDown;

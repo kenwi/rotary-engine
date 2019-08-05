@@ -1,6 +1,6 @@
 namespace Engine
 {
-    internal enum KeyboardInputType
+    public enum KeyboardInputType
     {
         EventBased,
         GameLoopBased

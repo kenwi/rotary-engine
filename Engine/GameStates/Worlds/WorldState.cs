@@ -1,7 +1,7 @@
 namespace Engine.GameStates.Worlds
 {
 
-    internal enum WorldState
+    public enum WorldState
     {
         Default
     }

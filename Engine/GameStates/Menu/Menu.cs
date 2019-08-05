@@ -3,7 +3,7 @@ using SFML.Window;
 
 namespace Engine.GameStates.Menu
 {
-    internal class Menu : BaseGameState, IMenu
+    public class Menu : BaseGameState, IMenu
     {
         public void Draw(RenderWindow target)
         {

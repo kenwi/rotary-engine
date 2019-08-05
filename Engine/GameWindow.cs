@@ -5,7 +5,7 @@ using SFML.Window;
 
 namespace Engine
 {
-    internal abstract class GameWindow
+    public abstract class GameWindow
     {
         private const float UpdateLimit = 10;
         private readonly float updateRate;
@@ -16,7 +16,7 @@ namespace Engine
         protected readonly KeyboardInputType InputType; 
         protected float DeltaTime { get; private set; }
 
-        protected GameWindow(Vector2u windowSize, string windowTitle, Color clearColor
+        public GameWindow(Vector2u windowSize, string windowTitle, Color clearColor
             , uint framerateLimit = 60
             , bool fullScreen = false
             , bool vsync = false

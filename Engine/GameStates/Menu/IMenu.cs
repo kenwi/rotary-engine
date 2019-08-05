@@ -3,7 +3,7 @@ using SFML.Graphics;
 
 namespace Engine.GameStates.Menu
 {
-    internal interface IMenu : IGameInput
+    public interface IMenu : IGameInput
     {
         // event EventHandler<MenuItemType> MenuItemSelected;
 

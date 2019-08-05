@@ -3,7 +3,7 @@ using SFML.Graphics;
 
 namespace Engine.GameStates.Worlds
 {
-    internal interface IWorld : IGameInput
+    public interface IWorld : IGameInput
     {
         event EventHandler<WorldState> WorldStateChanged;
         WorldState WorldState { get; set; }

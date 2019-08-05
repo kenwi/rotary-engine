@@ -8,11 +8,12 @@ namespace Engine.GameStates.Worlds
     using Engine.Graphics;
     using Engine.Managers;
 
-    internal abstract class BaseWorld : BaseGameState, IWorld
+    public abstract class BaseWorld : BaseGameState, IWorld
     {
         TileMap map;
         Forest forest;
         RenderWindow window;
+        protected int width, height, gridSize;
 
         public event EventHandler<WorldState> WorldStateChanged;
 
@@ -33,17 +34,22 @@ namespace Engine.GameStates.Worlds
             }
         }
 
+        public BaseWorld()
+        {
+            width = 256;
+            height = 256;
+            gridSize = 64;
+        }
 
         public virtual void Initialize(RenderWindow target)
         {
             window = target;
-            int width = 32, height = 32, gridSize = 64;
-
+            
             var groundTexture = AssetManager.Instance.Texture.Get(AssetManagerItemName.GroundTexture);
             map = new TileMap(groundTexture, gridSize, width, height);
 
             var treeTexture = AssetManager.Instance.Texture.Get(AssetManagerItemName.TreeTexture);
-            forest = new Forest(treeTexture, gridSize, width, height, width * height, 0.1);
+            forest = new Forest(treeTexture, gridSize, width, height, width * height, 0.5);
         }
 
         public virtual void Update(RenderWindow target, float deltaTime)
@@ -73,7 +79,5 @@ namespace Engine.GameStates.Worlds
             view.Zoom(factor);
             window.SetView(view);
         }
-
-
     }
 }

@@ -1,6 +1,6 @@
 namespace Engine.Managers
 {
-    internal enum AssetManagerItemName
+    public enum AssetManagerItemName
     {
         GroundTexture,
         TreeTexture,

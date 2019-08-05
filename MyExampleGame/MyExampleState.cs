@@ -1,4 +1,4 @@
-namespace Engine
+namespace MyExampleGame
 {
     enum MyExampleState
     {

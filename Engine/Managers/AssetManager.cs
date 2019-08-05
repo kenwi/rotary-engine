@@ -3,7 +3,7 @@ using SFML.Graphics;
 
 namespace Engine.Managers
 {
-    internal class AssetManager
+    public class AssetManager
     {
         private static AssetManager _instance;
         private static readonly object Sync = new object();

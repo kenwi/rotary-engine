@@ -7,10 +7,12 @@ using Engine.GameStates;
 using Engine.GameStates.Worlds;
 using Engine.GameStates.Menu;
 using Engine.Managers;
+using System.IO;
+using System.Reflection;
 
-namespace Engine
+namespace MyExampleGame
 {
-    internal sealed class MyExampleGame : Engine.GameWindow
+    public sealed class MyExampleGame : Engine.GameWindow
     {
         MyExampleState gameState;
         IWorld world;
@@ -36,7 +38,7 @@ namespace Engine
 
         protected override void LoadContent()
         {
-            AssetManager.Instance.Texture.Load(AssetManagerItemName.GroundTexture, "Assets/Ground.png");
+            AssetManager.Instance.Texture.Load(AssetManagerItemName.GroundTexture,  "Assets/Ground.png");
             AssetManager.Instance.Texture.Load(AssetManagerItemName.TreeTexture, "Assets/Tree.png");
         }
 
@@ -63,9 +65,11 @@ namespace Engine
 
         protected override void Resize(uint width, uint height)
         {
-
+            var view = Window.GetView();
+            view.Size = new Vector2f(width, height);
+            Window.SetView(view);
         }
-      
+
         protected override void KeyPressed(object sender, KeyEventArgs e)
         {
             if (e.Code == Keyboard.Key.Escape)
