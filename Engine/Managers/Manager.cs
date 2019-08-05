@@ -4,6 +4,8 @@ using System.Linq;
 
 namespace Engine.Managers
 {
+    using Engine.Interfaces;
+
     public class Manager<T> : IManager<T> where T : class
     {
         private static List<ManagerItem<T>> _items;

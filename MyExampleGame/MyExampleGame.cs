@@ -1,22 +1,21 @@
-using System;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 
-using Engine.GameStates;
-using Engine.GameStates.Worlds;
-using Engine.GameStates.Menu;
-using Engine.Managers;
-using System.IO;
-using System.Reflection;
 
 namespace MyExampleGame
 {
+    using Engine.Managers;
+    using Engine.Interfaces;
+    using Engine.GameStates.Worlds;
+    using Engine.GameStates.Menu;
+
     public sealed class MyExampleGame : Engine.GameWindow
     {
         MyExampleState gameState;
         IWorld world;
         IMenu menu;
+        View gui;
 
         public MyExampleGame()
             : base(new Vector2u(1024, 768), "MyExampleGame", Color.Black)
@@ -31,6 +30,7 @@ namespace MyExampleGame
             gameState = MyExampleState.Game;
             world = new World01();
             world.Initialize(Window);
+            gui = new View(new FloatRect(0, 0, 500, 500));
 
             menu = new Menu();
             menu.Initialize(Window);
@@ -42,10 +42,20 @@ namespace MyExampleGame
             AssetManager.Instance.Texture.Load(AssetManagerItemName.TreeTexture, "Assets/Tree.png");
         }
 
+        Shape guiPlaceHolder = new RectangleShape(new Vector2f(10, 10))
+        {
+            FillColor = Color.Black
+        };
+
+
         protected override void Render()
         {
             if (gameState == MyExampleState.Game)
+            {
+                var view = Window.GetView();
                 world.Draw(Window);
+                Window.SetView(view);
+            }
             else
                 menu.Draw(Window);
         }

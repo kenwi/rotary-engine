@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Engine.Managers
+namespace Engine.Interfaces
 {
     internal interface IManager<T> where T : class
     {

@@ -1,7 +1,7 @@
 using System;
 using SFML.Graphics;
 
-namespace Engine.GameStates.Menu
+namespace Engine.Interfaces
 {
     public interface IMenu : IGameInput
     {

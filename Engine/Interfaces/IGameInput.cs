@@ -1,7 +1,7 @@
 using SFML.Graphics;
 using SFML.Window;
 
-namespace Engine.GameStates
+namespace Engine.Interfaces
 {
     public interface IGameInput
     {

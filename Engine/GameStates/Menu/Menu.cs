@@ -3,6 +3,8 @@ using SFML.Window;
 
 namespace Engine.GameStates.Menu
 {
+    using Engine.Interfaces;
+
     public class Menu : BaseGameState, IMenu
     {
         public void Draw(RenderWindow target)

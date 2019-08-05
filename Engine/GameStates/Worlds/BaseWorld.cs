@@ -5,6 +5,7 @@ using SFML.System;
 
 namespace Engine.GameStates.Worlds
 {
+    using Engine.Interfaces;
     using Engine.Graphics;
     using Engine.Managers;
 

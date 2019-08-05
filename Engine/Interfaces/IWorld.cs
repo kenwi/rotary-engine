@@ -1,8 +1,10 @@
 using System;
 using SFML.Graphics;
 
-namespace Engine.GameStates.Worlds
+namespace Engine.Interfaces
 {
+    using Engine.GameStates.Worlds;
+
     public interface IWorld : IGameInput
     {
         event EventHandler<WorldState> WorldStateChanged;
