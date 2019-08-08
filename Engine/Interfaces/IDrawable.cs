@@ -2,7 +2,7 @@
 
 namespace Engine.Interfaces
 {
-    internal interface IDrawable
+    public interface IDrawable
     {
         void Draw(RenderWindow target);
     }

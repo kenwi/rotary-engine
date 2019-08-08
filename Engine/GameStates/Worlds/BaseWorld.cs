@@ -59,7 +59,7 @@ namespace Engine.GameStates.Worlds
 
         }
 
-        public void Draw(RenderWindow target)
+        public virtual void Draw(RenderWindow target)
         {
             if (WorldState == WorldState.Default)
             {

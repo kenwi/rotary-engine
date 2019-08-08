@@ -13,12 +13,15 @@ namespace Engine.GameStates.Worlds
         private Vector2i mousePreviousPosition;
         private Vector2i mouseDeltaVelocity;
         private float zoomLevel;
+        Player player;
 
         public override void Initialize(RenderWindow target)
         {
             zoomLevel = 1;
             keyDown = new List<Keyboard.Key>();
             mouseButtonDown = new List<Mouse.Button>();
+            player = new Player(new Vector2i(10, 0), 64);
+
             base.Initialize(target);
         }
 
@@ -46,7 +49,31 @@ namespace Engine.GameStates.Worlds
         public override void Update(RenderWindow target, float deltaTime)
         {
             updateCamera(deltaTime);
+            var speed = 200;
+            if(KeyPressedAndHolding(Keyboard.Key.S))
+            {
+                player.MovePosition(new Vector2f(0, speed * deltaTime));
+            }
+            if (KeyPressedAndHolding(Keyboard.Key.W))
+            {
+                player.MovePosition(new Vector2f(0, -speed * deltaTime));
+            }
+            if (KeyPressedAndHolding(Keyboard.Key.D))
+            {
+                player.MovePosition(new Vector2f(speed * deltaTime, 0));
+            }
+            if (KeyPressedAndHolding(Keyboard.Key.A))
+            {
+                player.MovePosition(new Vector2f(-speed * deltaTime, 0));
+            }
+
             base.Update(target, deltaTime);
+        }
+
+        public override void Draw(RenderWindow target)
+        {
+            base.Draw(target);
+            player.Draw(target);
         }
 
         public override void KeyPressed(RenderWindow target, object sender, KeyEventArgs e)

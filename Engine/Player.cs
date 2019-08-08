@@ -6,9 +6,10 @@ using SFML.Window;
 namespace Engine
 {
     using Engine.Interfaces;
-    internal class Player : IDrawable, IUpdateable, IGameInput
+
+    public class Player : IDrawable, IUpdateable
     {
-        protected Sprite shape = new Sprite();
+        protected Shape shape;
 
         public Player(Vector2i cellPosition, float gridSize, Texture texture, IntRect textureRect)
         {
@@ -17,44 +18,27 @@ namespace Engine
             shape.TextureRect = textureRect;
         }
 
+        public void MovePosition(Vector2f deltaPosition)
+        {
+            shape.Position += deltaPosition;
+        }
+
+        public Player(Vector2i cellPosition, float gridSize)
+        {
+            var size = 31;
+            shape = new CircleShape(size, 128);
+            shape.FillColor = new Color(0, 0, 255, 128);
+            shape.OutlineColor = new Color(255, 0, 0, 128);
+            shape.Position = new Vector2f(cellPosition.X * gridSize, cellPosition.Y * gridSize);
+        }
+
         public void Draw(RenderWindow target)
         {
             target.Draw(shape);
         }
 
-        public void KeyPressed(RenderWindow target, object sender, KeyEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void KeyReleased(RenderWindow target, object sender, KeyEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void MouseMoved(RenderWindow window, object sender, MouseMoveEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void MousePressed(RenderWindow window, object sender, MouseButtonEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void MouseReleased(RenderWindow window, object sender, MouseButtonEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void MouseWheelScrolled(RenderWindow window, object sender, MouseWheelScrollEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         public void Update(float deltaTime)
         {
-            throw new NotImplementedException();
         }
     }
 }
