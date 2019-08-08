@@ -9,6 +9,9 @@ namespace MyExampleGame
     using Engine.Interfaces;
     using Engine.GameStates.Worlds;
     using Engine.GameStates.Menu;
+    using System;
+    using System.IO;
+    using System.Reflection;
 
     public sealed class MyExampleGame : Engine.GameWindow
     {
@@ -38,8 +41,11 @@ namespace MyExampleGame
 
         protected override void LoadContent()
         {
-            AssetManager.Instance.Texture.Load(AssetManagerItemName.GroundTexture,  "Assets/Ground.png");
-            AssetManager.Instance.Texture.Load(AssetManagerItemName.TreeTexture, "Assets/Tree.png");
+            var directory = Directory.GetCurrentDirectory();
+            string toSubDir = directory.Contains("bin") ? "../../../../" : "";
+
+            AssetManager.Instance.Texture.Load(AssetManagerItemName.GroundTexture,  Path.Combine(toSubDir, "Assets/Ground.png"));
+            AssetManager.Instance.Texture.Load(AssetManagerItemName.TreeTexture, Path.Combine(toSubDir, "Assets/Tree.png"));
         }
 
         Shape guiPlaceHolder = new RectangleShape(new Vector2f(10, 10))
