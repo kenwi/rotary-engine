@@ -15,14 +15,19 @@ namespace Engine.Graphics
         {
             this.gridSize = gridSize;
             forest = new Queue<Vector2f>();
-            var random = new Random();
+            var noise = new FastNoise(4);
+            noise.SetFrequency(0.02f);
+            noise.SetFractalLacunarity(5);
+            noise.SetFractalOctaves(8);
+            noise.SetFractalGain(0.6f);
+
             for(int i=0; i<numberOfTrees; i++)
             {
-                if(random.NextDouble() > density)
-                    continue;
-                    
                 var x = i % width;
                 var y = i / width;
+                var value = noise.GetValueFractal(x, y, 0);
+                if(value > density)
+                    continue;
                 forest.Enqueue(new Vector2f(x, y));
             }
         }

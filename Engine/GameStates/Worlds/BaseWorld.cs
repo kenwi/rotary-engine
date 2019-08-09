@@ -51,7 +51,7 @@ namespace Engine.GameStates.Worlds
             map = new TileMap(groundTexture, gridSize, width, height);
 
             var treeTexture = AssetManager.Instance.Texture.Get(AssetManagerItemName.TreeTexture);
-            forest = new Forest(treeTexture, gridSize, width, height, width * height, 0.5);
+            forest = new Forest(treeTexture, gridSize, width, height, width * height, 0.1);
         }
 
         public virtual void Update(RenderWindow target, float deltaTime)

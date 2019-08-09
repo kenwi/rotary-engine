@@ -20,7 +20,7 @@ namespace Engine.GameStates.Worlds
             zoomLevel = 1;
             keyDown = new List<Keyboard.Key>();
             mouseButtonDown = new List<Mouse.Button>();
-            player = new Player(new Vector2i(10, 0), 64);
+            player = new Player(new Vector2i(8, 5), 64);
 
             base.Initialize(target);
         }
@@ -105,6 +105,7 @@ namespace Engine.GameStates.Worlds
             var currentPosition = new Vector2i(e.X, e.Y);
             mouseDeltaVelocity = mousePreviousPosition - currentPosition;
             mousePreviousPosition = currentPosition;
+            
 
             if (MouseDown(Mouse.Button.Left))
                 MoveWindow(new Vector2f(mouseDeltaVelocity.X * zoomLevel, mouseDeltaVelocity.Y * zoomLevel));
