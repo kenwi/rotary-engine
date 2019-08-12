@@ -1,32 +1,34 @@
-using SFML.System;
 using SFML.Graphics;
+using SFML.System;
 
 namespace Engine.Graphics
 {
     internal class Tile
     {
-        protected Sprite shape = new Sprite();
-        protected bool collision = false;
+        protected bool Collision = false;
+        protected Sprite Shape = new Sprite();
 
-        public Vector2f Position => shape.Position;
-
-        public Tile(int GridX, int GridY, float gridSize, Texture texture, IntRect textureRect)
+        public Tile(int gridX, int gridY, float gridSize, Texture texture, IntRect textureRect)
         {
-            shape.Position = new Vector2f(GridX * gridSize, GridY * gridSize);
-            shape.Texture = texture;
-            shape.TextureRect = textureRect;
+            Shape.Position = new Vector2f(gridX * gridSize, gridY * gridSize);
+            Shape.Texture = texture;
+            Shape.TextureRect = textureRect;
         }
 
-        public bool Intersects(FloatRect bounds) => shape.GetGlobalBounds().Intersects(bounds);
+        public Vector2f Position => Shape.Position;
+
+        public bool Intersects(FloatRect bounds)
+        {
+            return Shape.GetGlobalBounds().Intersects(bounds);
+        }
 
         public virtual void Update()
         {
-
         }
 
         public virtual void Render(RenderTarget target, Shader shader)
         {
-            target.Draw(shape);
+            target.Draw(Shape);
         }
     }
 }

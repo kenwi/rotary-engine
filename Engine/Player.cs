@@ -1,44 +1,43 @@
-﻿using System;
+﻿using Engine.Interfaces;
 using SFML.Graphics;
 using SFML.System;
-using SFML.Window;
 
 namespace Engine
 {
-    using Engine.Interfaces;
-
     public class Player : IDrawable, IUpdateable
     {
-        protected Shape shape;
+        protected Shape Shape;
 
         public Player(Vector2i cellPosition, float gridSize, Texture texture, IntRect textureRect)
         {
-            shape.Position = new Vector2f(cellPosition.X * gridSize, cellPosition.Y * gridSize);
-            shape.Texture = texture;
-            shape.TextureRect = textureRect;
-        }
-
-        public void MovePosition(Vector2f deltaPosition)
-        {
-            shape.Position += deltaPosition;
+            Shape.Position = new Vector2f(cellPosition.X * gridSize, cellPosition.Y * gridSize);
+            Shape.Texture = texture;
+            Shape.TextureRect = textureRect;
         }
 
         public Player(Vector2i cellPosition, float gridSize)
         {
-            var size = 31;
-            shape = new CircleShape(size, 128);
-            shape.FillColor = new Color(0, 0, 255, 128);
-            shape.OutlineColor = new Color(255, 0, 0, 128);
-            shape.Position = new Vector2f(cellPosition.X * gridSize, cellPosition.Y * gridSize);
+            const int size = 31;
+            Shape = new CircleShape(size, 128)
+            {
+                FillColor = new Color(0, 0, 255, 128),
+                OutlineColor = new Color(255, 0, 0, 128),
+                Position = new Vector2f(cellPosition.X * gridSize, cellPosition.Y * gridSize)
+            };
         }
 
         public void Draw(RenderWindow target)
         {
-            target.Draw(shape);
+            target.Draw(Shape);
         }
 
         public void Update(float deltaTime)
         {
+        }
+
+        public void MovePosition(Vector2f deltaPosition)
+        {
+            Shape.Position += deltaPosition;
         }
     }
 }

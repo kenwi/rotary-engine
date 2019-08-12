@@ -1,3 +1,4 @@
+using System.Threading;
 using SFML.Audio;
 using SFML.Graphics;
 
@@ -8,46 +9,47 @@ namespace Engine.Managers
         private static AssetManager _instance;
         private static readonly object Sync = new object();
 
+        private Manager<Font> _font;
+
+        private Manager<Music> _music;
+
+        private Manager<SoundBuffer> _sound;
+
+        private Manager<Texture> _texture;
+
+        public Manager<Texture> Texture => _texture ?? (_texture = new Manager<Texture>());
+
+        public Manager<Font> Font => _font ?? (_font = new Manager<Font>());
+
+        public Manager<Music> Music => _music ?? (_music = new Manager<Music>());
+
+        public Manager<SoundBuffer> Sound => _sound ?? (_sound = new Manager<SoundBuffer>());
+
         #region SINGLETON
 
-        private AssetManager() { }
+        private AssetManager()
+        {
+        }
 
         public static AssetManager Instance
         {
             get
             {
                 if (_instance == null)
-                {
                     lock (Sync)
                     {
                         if (_instance == null)
                         {
                             var instance = new AssetManager();
-                            System.Threading.Thread.MemoryBarrier();
+                            Thread.MemoryBarrier();
                             _instance = instance;
                         }
                     }
-                }
+
                 return _instance;
             }
         }
 
         #endregion
-
-        private Manager<Texture> _texture;
-
-        public Manager<Texture> Texture => _texture ?? (_texture = new Manager<Texture>());
-
-        private Manager<Font> _font;
-
-        public Manager<Font> Font => _font ?? (_font = new Manager<Font>());
-
-        private Manager<Music> _music;
-
-        public Manager<Music> Music => _music ?? (_music = new Manager<Music>());
-
-        private Manager<SoundBuffer> _sound;
-
-        public Manager<SoundBuffer> Sound => _sound ?? (_sound = new Manager<SoundBuffer>());
     }
 }

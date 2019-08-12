@@ -1,82 +1,85 @@
+using System.IO;
+using Engine;
+using Engine.GameStates.Menu;
+using Engine.GameStates.Worlds;
+using Engine.Interfaces;
+using Engine.Managers;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
 
-
 namespace MyExampleGame
 {
-    using Engine.Managers;
-    using Engine.Interfaces;
-    using Engine.GameStates.Worlds;
-    using Engine.GameStates.Menu;
-    using System;
-    using System.IO;
-    using System.Reflection;
-
-    public sealed class MyExampleGame : Engine.GameWindow
+    public sealed class MyExampleGame : GameWindow
     {
-        MyExampleState gameState;
-        IWorld world;
-        IMenu menu;
-        View gui;
+        private MyExampleState _gameState;
+        private View _gui;
+
+        private Shape _guiPlaceHolder = new RectangleShape(new Vector2f(10, 10))
+        {
+            FillColor = Color.Black
+        };
+
+        private IMenu _menu;
+        private IWorld _world;
 
         public MyExampleGame()
             : base(new Vector2u(1024, 768), "MyExampleGame", Color.Black)
         {
-
         }
 
-        private IGameInput GetGameInput() => world;
+        private IGameInput GetGameInput()
+        {
+            return _world;
+        }
 
         protected override void Initialize()
         {
-            gameState = MyExampleState.Game;
-            world = new World01();
-            world.Initialize(Window);
-            gui = new View(new FloatRect(0, 0, 500, 500));
+            _gameState = MyExampleState.Game;
+            _world = new World01();
+            _world.Initialize(Window);
+            _gui = new View(new FloatRect(0, 0, 500, 500));
 
-            menu = new Menu();
-            menu.Initialize(Window);
+            _menu = new Menu();
+            _menu.Initialize(Window);
         }
 
         protected override void LoadContent()
         {
             var directory = Directory.GetCurrentDirectory();
-            string toSubDir = directory.Contains("bin") ? "../../../../" : "";
+            var toSubDir = directory.Contains("bin") ? "../../../../" : "";
 
-            AssetManager.Instance.Texture.Load(AssetManagerItemName.GroundTexture,  Path.Combine(toSubDir, "Assets/Ground.png"));
-            AssetManager.Instance.Texture.Load(AssetManagerItemName.TreeTexture, Path.Combine(toSubDir, "Assets/Tree.png"));
+            AssetManager.Instance.Texture.Load(AssetManagerItemName.GroundTexture,
+                Path.Combine(toSubDir, "Assets/Ground.png"));
+            AssetManager.Instance.Texture.Load(AssetManagerItemName.TreeTexture,
+                Path.Combine(toSubDir, "Assets/Tree.png"));
         }
-
-        Shape guiPlaceHolder = new RectangleShape(new Vector2f(10, 10))
-        {
-            FillColor = Color.Black
-        };
 
 
         protected override void Render()
         {
-            if (gameState == MyExampleState.Game)
+            if (_gameState == MyExampleState.Game)
             {
                 var view = Window.GetView();
-                world.Draw(Window);
+                _world.Draw(Window);
                 Window.SetView(view);
             }
             else
-                menu.Draw(Window);
+            {
+                _menu.Draw(Window);
+            }
         }
 
         protected override void Update()
         {
-            if (gameState == MyExampleState.Game)
-                world.Update(Window, DeltaTime);
+            if (_gameState == MyExampleState.Game)
+                _world.Update(Window, DeltaTime);
             else
-                menu.Update(Window, DeltaTime);
+                _menu.Update(Window, DeltaTime);
         }
 
         protected override void Quit()
         {
-
         }
 
         protected override void Resize(uint width, uint height)
@@ -92,7 +95,7 @@ namespace MyExampleGame
                 Window.Close();
 
             if (e.Code == Keyboard.Key.Enter)
-                gameState = gameState == MyExampleState.Game ? MyExampleState.Menu : MyExampleState.Game;
+                _gameState = _gameState == MyExampleState.Game ? MyExampleState.Menu : MyExampleState.Game;
 
             GetGameInput().KeyPressed(Window, sender, e);
         }

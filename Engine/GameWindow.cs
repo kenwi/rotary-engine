@@ -8,35 +8,29 @@ namespace Engine
     public abstract class GameWindow
     {
         private const float UpdateLimit = 10;
-        private readonly float updateRate;
-        private readonly Color clearColor;
-        private Time Time { get; set; }
+        private readonly Color _clearColor;
+        private readonly float _updateRate;
+        protected readonly KeyboardInputType InputType;
 
         protected readonly RenderWindow Window;
-        protected readonly KeyboardInputType InputType; 
-        protected float DeltaTime { get; private set; }
 
-        public GameWindow(Vector2u windowSize, string windowTitle, Color clearColor
+        protected GameWindow(Vector2u windowSize, string windowTitle, Color clearColor
             , uint framerateLimit = 60
             , bool fullScreen = false
             , bool vsync = false
             , KeyboardInputType inputType = KeyboardInputType.EventBased)
         {
             InputType = inputType;
-            this.clearColor = clearColor;
-            updateRate = 1.0f / framerateLimit;
-            
+            _clearColor = clearColor;
+            _updateRate = 1.0f / framerateLimit;
+
             var style = fullScreen ? Styles.Fullscreen : Styles.Default;
             Window = new RenderWindow(new VideoMode(windowSize.X, windowSize.Y, 32), windowTitle, style);
 
             if (vsync)
-            {
                 Window.SetVerticalSyncEnabled(true);
-            }
             else
-            {
                 Window.SetFramerateLimit(framerateLimit);
-            }
 
             Window.Closed += (sender, arg) => Window.Close();
             Window.Resized += (sender, arg) => Resize(arg.Width, arg.Height);
@@ -45,15 +39,19 @@ namespace Engine
             Window.MouseMoved += MouseMoved;
             Window.MouseWheelScrolled += MouseWheelScrolled;
 
-            if(InputType == KeyboardInputType.EventBased)
+            if (InputType == KeyboardInputType.EventBased)
             {
                 Window.KeyPressed += KeyPressed;
                 Window.KeyReleased += KeyReleased;
             }
-            else {
+            else
+            {
                 throw new NotImplementedException();
             }
         }
+
+        private Time Time { get; set; }
+        protected float DeltaTime { get; private set; }
 
 
         public void Run()
@@ -68,24 +66,23 @@ namespace Engine
                 Time = clock.Restart();
                 DeltaTime = Time.AsSeconds();
 
-                if (DeltaTime > 1)
-                {
-                    DeltaTime = 0;
-                }
+                if (DeltaTime > 1) DeltaTime = 0;
                 totalTime += DeltaTime;
                 var updateCount = 0;
 
-                while (totalTime >= updateRate && updateCount < UpdateLimit)
+                while (totalTime >= _updateRate && updateCount < UpdateLimit)
                 {
                     Window.DispatchEvents();
                     Update();
-                    totalTime -= updateRate;
+                    totalTime -= _updateRate;
                     updateCount++;
                 }
-                Window.Clear(clearColor);
+
+                Window.Clear(_clearColor);
                 Render();
                 Window.Display();
             }
+
             Quit();
         }
 
@@ -105,7 +102,7 @@ namespace Engine
 
         protected float GetFps()
         {
-            return (1000000.0f / Time.AsMicroseconds());
+            return 1000000.0f / Time.AsMicroseconds();
         }
     }
 }

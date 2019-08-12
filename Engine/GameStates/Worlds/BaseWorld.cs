@@ -1,20 +1,28 @@
 using System;
+using Engine.Graphics;
+using Engine.Interfaces;
+using Engine.Managers;
 using SFML.Graphics;
-using SFML.Window;
 using SFML.System;
+using SFML.Window;
 
 namespace Engine.GameStates.Worlds
 {
-    using Engine.Interfaces;
-    using Engine.Graphics;
-    using Engine.Managers;
-
     public abstract class BaseWorld : BaseGameState, IWorld
     {
-        TileMap map;
-        Forest forest;
-        RenderWindow window;
-        protected int width, height, gridSize;
+        private Forest _forest;
+        private TileMap _map;
+        private RenderWindow _window;
+
+        private WorldState _worldState = WorldState.Default;
+        protected int Width, Height, GridSize;
+
+        protected BaseWorld()
+        {
+            Width = 128;
+            Height = 128;
+            GridSize = 64;
+        }
 
         public event EventHandler<WorldState> WorldStateChanged;
 
@@ -25,66 +33,51 @@ namespace Engine.GameStates.Worlds
         public abstract void MouseMoved(RenderWindow window, object sender, MouseMoveEventArgs e);
         public abstract void MouseWheelScrolled(RenderWindow window, object sender, MouseWheelScrollEventArgs e);
 
-        private WorldState worldState = WorldState.Default;
         public WorldState WorldState
         {
-            get => worldState;
+            get => _worldState;
             set
             {
-                worldState = value;
+                _worldState = value;
                 WorldStateChanged(this, WorldState);
             }
         }
 
-        public BaseWorld()
-        {
-            width = 128;
-            height = 128;
-            gridSize = 64;
-        }
-
         public virtual void Initialize(RenderWindow target)
         {
-            window = target;
-            
+            _window = target;
+
             var groundTexture = AssetManager.Instance.Texture.Get(AssetManagerItemName.GroundTexture);
-            map = new TileMap(groundTexture, gridSize, width, height);
+            _map = new TileMap(groundTexture, GridSize, Width, Height);
 
             var treeTexture = AssetManager.Instance.Texture.Get(AssetManagerItemName.TreeTexture);
-            forest = new Forest(treeTexture, gridSize, width, height, width * height, 0.1);
+            _forest = new Forest(treeTexture, GridSize, Width, Height, Width * Height, 0.1);
         }
 
         public virtual void Update(RenderWindow target, float deltaTime)
         {
-
         }
 
         public virtual void Draw(RenderWindow target)
         {
-            if (WorldState == WorldState.Default)
-            {
-                map.Draw(target);
-                forest.Draw(target);
-            }
+            if (WorldState != WorldState.Default) return;
+
+            _map.Draw(target);
+            _forest.Draw(target);
         }
 
         internal void MoveWindow(Vector2f direction)
         {
-            var view = window.GetView();
+            var view = _window.GetView();
             view.Move(direction);
-            window.SetView(view);
+            _window.SetView(view);
         }
 
         internal void ZoomWindow(float factor)
         {
-            var view = window.GetView();
+            var view = _window.GetView();
             view.Zoom(factor);
-            window.SetView(view);
-        }
-
-        public void MouseWheelScrolled(object sender, MouseWheelScrollEventArgs e)
-        {
-            throw new NotImplementedException();
+            _window.SetView(view);
         }
     }
 }

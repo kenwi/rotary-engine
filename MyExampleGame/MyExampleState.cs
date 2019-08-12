@@ -1,6 +1,6 @@
 namespace MyExampleGame
 {
-    enum MyExampleState
+    internal enum MyExampleState
     {
         Menu,
         Game

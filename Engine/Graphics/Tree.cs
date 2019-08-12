@@ -5,29 +5,31 @@ namespace Engine.Graphics
 {
     internal class Tree
     {
-        protected Sprite shape = new Sprite();
-        protected bool collision = false;
+        protected bool Collision = false;
+        protected Sprite Shape = new Sprite();
 
-        public Vector2f Position => shape.Position;
-
-        public Tree(int GridX, int GridY, float gridSize, Texture texture, IntRect textureRect)
+        public Tree(int gridX, int gridY, float gridSize, Texture texture, IntRect textureRect)
         {
             var offset = new Vector2f(0, -64);
-            shape.Position = new Vector2f(GridX * gridSize, GridY * gridSize) + offset;
-            shape.Texture = texture;
-            shape.TextureRect = textureRect;
+            Shape.Position = new Vector2f(gridX * gridSize, gridY * gridSize) + offset;
+            Shape.Texture = texture;
+            Shape.TextureRect = textureRect;
         }
 
-        public bool Intersects(FloatRect bounds) => shape.GetGlobalBounds().Intersects(bounds);
+        public Vector2f Position => Shape.Position;
+
+        public bool Intersects(FloatRect bounds)
+        {
+            return Shape.GetGlobalBounds().Intersects(bounds);
+        }
 
         public virtual void Update()
         {
-
         }
 
         public virtual void Draw(RenderWindow target)
         {
-            target.Draw(shape);
+            target.Draw(Shape);
         }
     }
 }

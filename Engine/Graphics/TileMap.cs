@@ -1,41 +1,37 @@
-using SFML.System;
 using SFML.Graphics;
+using SFML.System;
 using System.Collections.Generic;
 
 namespace Engine.Graphics
 {
     internal class TileMap
     {
-        int gridSizeI;
-        float gridSizeF;
-        bool debug;
+        private readonly Shape _collisionBox;
+        private readonly bool _debug;
 
-        Vector2i maxSizeWorldGrid;
-        Vector2f maxSizeWorldF;
-
-        Queue<Tile> map;
-        Shape collisionBox;
+        private readonly Queue<Tile> _map;
+        private Vector2f _maxSizeWorldF;
+        private Vector2i _maxSizeWorldGrid;
 
         public TileMap(Texture groundTexture, float gridSize, int width, int height, bool showBounds = false)
         {
-            gridSizeF = gridSize;
-            gridSizeI = (int)gridSizeF;
-            maxSizeWorldGrid.X = width;
-            maxSizeWorldGrid.Y = height;
-            maxSizeWorldF.X = width * gridSize;
-            maxSizeWorldF.Y = height * gridSize;
-            map = new Queue<Tile>(width * height);
-            debug = showBounds;
-            
-            for (int i = 0; i < width * height; i++)
+            var gridSizeI = (int) gridSize;
+            _maxSizeWorldGrid.X = width;
+            _maxSizeWorldGrid.Y = height;
+            _maxSizeWorldF.X = width * gridSize;
+            _maxSizeWorldF.Y = height * gridSize;
+            _map = new Queue<Tile>(width * height);
+            _debug = showBounds;
+
+            for (var i = 0; i < width * height; i++)
             {
                 var x = i % width;
                 var y = i / width;
                 var o = new Tile(x, y, gridSize, groundTexture, new IntRect(0, 0, gridSizeI, gridSizeI));
-                map.Enqueue(o);
+                _map.Enqueue(o);
             }
 
-            collisionBox = new RectangleShape(new Vector2f(gridSize, gridSize))
+            _collisionBox = new RectangleShape(new Vector2f(gridSize, gridSize))
             {
                 OutlineThickness = 1,
                 FillColor = new Color(255, 0, 0, 25),
@@ -43,15 +39,18 @@ namespace Engine.Graphics
             };
         }
 
+        public Vector2i PlayerPosition { get; set; }
+
         public virtual void Draw(RenderWindow target)
         {
-            foreach (var tile in map)
+            foreach (var tile in _map)
             {
-                if (debug)
+                if (_debug)
                 {
-                    collisionBox.Position = tile.Position;
-                    target.Draw(collisionBox);
+                    _collisionBox.Position = tile.Position;
+                    target.Draw(_collisionBox);
                 }
+
                 tile.Render(target, null);
             }
         }
