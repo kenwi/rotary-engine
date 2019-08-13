@@ -1,26 +1,30 @@
 using System;
+using System.Collections.Generic;
+using Engine.Graphics;
+using Engine.Managers;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
-using System.Collections.Generic;
 
 namespace Engine.GameStates.Worlds
 {
     public class World01 : BaseWorld
     {
+        private Forest _forest;
         private List<Keyboard.Key> _keyDown;
         private List<Mouse.Button> _mouseButtonDown;
         private Vector2i _mouseDeltaVelocity;
         private Vector2i _mousePreviousPosition;
         private Player _player;
-        private float _zoomLevel;
 
         public override void Initialize(RenderWindow target)
         {
-            _zoomLevel = 1;
             _keyDown = new List<Keyboard.Key>();
             _mouseButtonDown = new List<Mouse.Button>();
             _player = new Player(new Vector2i(8, 5), 64);
+
+            var treeTexture = AssetManager.Instance.Texture.Get(AssetManagerItemName.TreeTexture);
+            _forest = new Forest(treeTexture, GridSize, Width, Height, 0.1);
 
             base.Initialize(target);
         }
@@ -42,14 +46,13 @@ namespace Engine.GameStates.Worlds
             if (KeyPressedAndHolding(Keyboard.Key.W)) _player.MovePosition(new Vector2f(0, -speed * deltaTime));
             if (KeyPressedAndHolding(Keyboard.Key.D)) _player.MovePosition(new Vector2f(speed * deltaTime, 0));
             if (KeyPressedAndHolding(Keyboard.Key.A)) _player.MovePosition(new Vector2f(-speed * deltaTime, 0));
-
-            base.Update(target, deltaTime);
         }
 
         public override void Draw(RenderWindow target)
         {
             base.Draw(target);
             _player.Draw(target);
+            _forest.Draw(target);
         }
 
         public override void KeyPressed(RenderWindow target, object sender, KeyEventArgs e)
@@ -60,7 +63,6 @@ namespace Engine.GameStates.Worlds
             if (e.Code != Keyboard.Key.Comma && e.Code != Keyboard.Key.Period) return;
 
             var zoomLevelDelta = e.Code == Keyboard.Key.Comma ? 0.5f : 2f;
-            _zoomLevel *= zoomLevelDelta;
             ZoomWindow(zoomLevelDelta);
         }
 
@@ -96,15 +98,13 @@ namespace Engine.GameStates.Worlds
             _mouseDeltaVelocity = _mousePreviousPosition - currentPosition;
             _mousePreviousPosition = currentPosition;
 
-
             if (MouseDown(Mouse.Button.Left))
-                MoveWindow(new Vector2f(_mouseDeltaVelocity.X * _zoomLevel, _mouseDeltaVelocity.Y * _zoomLevel));
+                MoveWindow(new Vector2f(_mouseDeltaVelocity.X, _mouseDeltaVelocity.Y));
         }
 
         public override void MouseWheelScrolled(RenderWindow window, object sender, MouseWheelScrollEventArgs e)
         {
             var zoomLevelDelta = Math.Abs(e.Delta - 1) < 1.0 ? 0.5f : 2f;
-            _zoomLevel *= zoomLevelDelta;
             ZoomWindow(zoomLevelDelta);
         }
     }
