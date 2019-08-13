@@ -7,23 +7,23 @@ namespace Engine.Graphics
     internal sealed class Forest : Tree
     {
         private readonly Queue<Vector2f> _forest;
+        private readonly uint _offsetY;
         private readonly float _gridSize;
 
-        public Forest(Texture treeTexture, float gridSize, int width, int height, int numberOfTrees, double density)
+        public Forest(Texture treeTexture, float gridSize, int width, int height, double density)
             : base(1, 1, gridSize, treeTexture, new IntRect(0, 0, 64, 96))
         {
             _gridSize = gridSize;
             _forest = new Queue<Vector2f>();
+            _offsetY = treeTexture.Size.Y / 2;
             var noise = new FastNoise(4);
             noise.SetFrequency(0.02f);
             noise.SetFractalLacunarity(5);
             noise.SetFractalOctaves(8);
             noise.SetFractalGain(0.6f);
 
-            for (var i = 0; i < numberOfTrees; i++)
+            for(int x = 0, y = 0, i = 0; i < width * height; i++, x = i % width, y = i / width)
             {
-                var x = i % width;
-                var y = i / width;
                 var value = noise.GetValueFractal(x, y, 0);
                 if (value > density)
                     continue;
@@ -33,10 +33,9 @@ namespace Engine.Graphics
 
         public override void Draw(RenderWindow target)
         {
-            var offset = new Vector2f(0, -64);
             foreach (var treePosition in _forest)
             {
-                Shape.Position = new Vector2f(treePosition.X * _gridSize, treePosition.Y * _gridSize) + offset;
+                Shape.Position = new Vector2f(treePosition.X * _gridSize, treePosition.Y * _gridSize) + new Vector2f(0, -_offsetY);
                 target.Draw(Shape);
             }
         }
