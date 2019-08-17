@@ -15,21 +15,20 @@ namespace Engine.GameStates.Worlds
         private readonly List<Mouse.Button> _mouseButtonDown;
         private Vector2i _mousePreviousPosition;
         private WorldState _state = WorldState.Default;
+        private float _zoomLevel;
 
-        internal TileMap Map;
         internal Vector2i MouseDeltaVelocity;
         internal int Width, Height, GridSize;
-        internal float ZoomLevel;
         internal RenderWindow Window;
 
-        internal BaseWorld()
+        internal BaseWorld(int width, int height, int gridSize)
         {
             _mouseButtonDown = new List<Mouse.Button>();
             _keyDown = new List<Keyboard.Key>();
-            ZoomLevel = 1;
-            Width = 128;
-            Height = 128;
-            GridSize = 64;
+            _zoomLevel = 1;
+            Width = width;
+            Height = height;
+            GridSize = gridSize;
         }
 
         public abstract void Update(RenderWindow target, float deltaTime);
@@ -84,14 +83,10 @@ namespace Engine.GameStates.Worlds
         public virtual void Initialize(RenderWindow target)
         {
             Window = target;
-            var groundTexture = AssetManager.Instance.Texture.Get(AssetManagerItemName.GroundTexture);
-            Map = new TileMap(groundTexture, GridSize, Width, Height);
         }
 
         public virtual void Draw(RenderWindow target)
         {
-            if (WorldState != WorldState.Default) return;
-            Map.Draw(target);
         }
 
         public virtual bool MouseDownAndHolding(Mouse.Button e)
@@ -107,7 +102,7 @@ namespace Engine.GameStates.Worlds
         internal void MoveWindow(Vector2f direction)
         {
             var view = Window.GetView();
-            var newPosition = new Vector2f(direction.X * ZoomLevel, direction.Y * ZoomLevel);
+            var newPosition = new Vector2f(direction.X * _zoomLevel, direction.Y * _zoomLevel);
             view.Move(newPosition);
             MouseDeltaVelocity = new Vector2i();
             Window.SetView(view);
@@ -116,7 +111,7 @@ namespace Engine.GameStates.Worlds
         internal void ZoomWindow(float factor)
         {
             var view = Window.GetView();
-            ZoomLevel *= factor;
+            _zoomLevel *= factor;
             view.Zoom(factor);
             Window.SetView(view);
         }

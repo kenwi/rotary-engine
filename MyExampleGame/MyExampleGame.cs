@@ -53,6 +53,8 @@ namespace MyExampleGame
                 Path.Combine(toSubDir, "Assets/Ground.png"));
             AssetManager.Instance.Texture.Load(AssetManagerItemName.TreeTexture,
                 Path.Combine(toSubDir, "Assets/Tree.png"));
+            AssetManager.Instance.Texture.Load(AssetManagerItemName.TileSetTexture,
+                Path.Combine(toSubDir, "Assets/Tileset.png"));
         }
 
 

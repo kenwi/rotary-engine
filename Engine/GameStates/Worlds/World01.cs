@@ -3,23 +3,31 @@ using Engine.Managers;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using System;
 
 namespace Engine.GameStates.Worlds
 {
     public class World01 : BaseWorld
     {
-        private Forest _forest;
         private Player _player;
         private int _playerMovementSpeed;
+        private VertexTileMap _vertexTileMap;
+
+        public World01() : base(128, 128, 32)
+        {
+        }
 
         public override void Initialize(RenderWindow target)
         {
             base.Initialize(target);
-
+            var level = new byte[Width * Height];
+            var length = (uint) MathF.Sqrt(Width * Height);
+            var tileSet = AssetManager.Instance.Texture.Get(AssetManagerItemName.TileSetTexture);
+            _vertexTileMap = new VertexTileMap();
+            _vertexTileMap.Load(tileSet, new Vector2u(32, 32), level, length, length);
+            _player = new Player(new Vector2i(), GridSize);
             _playerMovementSpeed = 200;
-            _player = new Player(new Vector2i(8, 5), 64);
-            var treeTexture = AssetManager.Instance.Texture.Get(AssetManagerItemName.TreeTexture);
-            _forest = new Forest(treeTexture, GridSize, Width, Height, 0.1);
+            ZoomWindow(0.5f);
         }
 
         public override void Update(RenderWindow target, float deltaTime)
@@ -30,10 +38,7 @@ namespace Engine.GameStates.Worlds
 
         public override void Draw(RenderWindow target)
         {
-            base.Draw(target);
-
-            _player.Draw(target);
-            _forest.Draw(target);
+            Window.Draw(_vertexTileMap);
         }
 
         private void CheckCameraInput(float deltaTime)

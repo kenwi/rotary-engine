@@ -1,3 +1,4 @@
+using System;
 using System.IO.Compression;
 using SFML.Graphics;
 using SFML.System;
@@ -9,18 +10,18 @@ namespace Engine.Graphics
         private VertexArray _vertices;
         private Texture _tileSet;
 
-        public bool Load(Texture tileSet, Vector2u tileSize, int[] tiles, uint width, uint height)
+        public bool Load(Texture tileSet, Vector2u tileSize, byte[] tiles, uint width, uint height)
         {
             _tileSet = tileSet;
             _vertices = new VertexArray(PrimitiveType.Quads);
             _vertices.Resize(width * height * 4);
-
+            
             for (uint x = 0; x < width; x++)
             {
                 for (uint y = 0; y < height; y++)
                 {
                     var index = x + y * width;
-                    var tileNumber = tiles[index];
+                    var tileNumber = tiles[x + y * width] + new Random().Next(6);
 
                     var tu = tileNumber % (_tileSet.Size.X / tileSize.X);
                     var tv = tileNumber / (_tileSet.Size.X / tileSize.X);
@@ -35,7 +36,6 @@ namespace Engine.Graphics
                     _vertices.Append(vertex4);
                 }
             }
-
             return true;
         }
 
