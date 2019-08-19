@@ -6,7 +6,7 @@ namespace MyExampleGame
     {
         static void Main(string[] args)
         {
-            var game = new MyExampleGame();
+            var game = new MyEcsGame(vSync: false, framerateLimit: 144, fullScreen: false);
             game.Run();
         }
     }
