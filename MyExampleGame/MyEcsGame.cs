@@ -16,7 +16,7 @@ namespace MyExampleGame
         private readonly Color _clearColor;
         private readonly float _updateRate;
         private readonly ISystem<float> _updateSystem;
-        private readonly ISystem<RenderWindow> _renderSystem;
+        private readonly ISystem<(RenderTarget, RenderStates)> _renderSystem;
         private readonly RenderWindow _window;
 
         private readonly World _world;
@@ -32,16 +32,18 @@ namespace MyExampleGame
             SetFrameRateLimit(vSync, framerateLimit);
 
             _world = new World();
+            var player = _world.CreateEntity();
+            player.Set<Position>(default);
+
             _updateSystem = new SequentialSystem<float>(
                 new GameSystem(_world)
                 , new PlayerSystem(_world, _window)
-            );
-            _renderSystem = new SequentialSystem<RenderWindow>(
-                new RenderSystem()
+                , new TileSystem(_world, new Vector2u(64, 64), new Vector2u(8, 8))
             );
 
-            var player = _world.CreateEntity();
-            player.Set<Position>(default);
+            _renderSystem = new SequentialSystem<(RenderTarget, RenderStates)>(
+                new RenderSystem(_world, _window, 8, 8)
+            );
 
             _world.Subscribe(this);
         }
@@ -69,7 +71,8 @@ namespace MyExampleGame
                     }
 
                     _window.Clear(_clearColor);
-                    _renderSystem.Update(_window);
+                    if(_renderSystem.IsEnabled)
+                        _renderSystem.Update((_window, RenderStates.Default));
                     _window.Display();
                 }
 
