@@ -15,7 +15,8 @@ namespace MyExampleGame
 
         private readonly Color _clearColor;
         private readonly float _updateRate;
-        private readonly ISystem<float> _system;
+        private readonly ISystem<float> _updateSystem;
+        private readonly ISystem<RenderWindow> _renderSystem;
         private readonly RenderWindow _window;
 
         private readonly World _world;
@@ -31,9 +32,12 @@ namespace MyExampleGame
             SetFrameRateLimit(vSync, framerateLimit);
 
             _world = new World();
-            _system = new SequentialSystem<float>(
+            _updateSystem = new SequentialSystem<float>(
                 new GameSystem(_world)
                 , new PlayerSystem(_world, _window)
+            );
+            _renderSystem = new SequentialSystem<RenderWindow>(
+                new RenderSystem()
             );
 
             var player = _world.CreateEntity();
@@ -44,9 +48,7 @@ namespace MyExampleGame
 
         internal void Run()
         {
-            var fpsClock = new Clock();
             var clock = new Clock();
-
             while (_window.IsOpen)
             {
                 var totalTime = 0.0f;
@@ -61,19 +63,16 @@ namespace MyExampleGame
                     while (totalTime >= _updateRate && updateCount < UpdateLimit)
                     {
                         _window.DispatchEvents();
-                        _system.Update(_deltaTime);
-
-                        if (fpsClock.ElapsedTime.AsSeconds() > 1)
-                        {
-                            Console.WriteLine(GetFps());
-                            fpsClock.Restart();
-                        }
+                        _updateSystem.Update(_deltaTime);
                         totalTime -= _updateRate;
                         updateCount++;
                     }
+
                     _window.Clear(_clearColor);
+                    _renderSystem.Update(_window);
                     _window.Display();
                 }
+
                 Quit();
             }
         }
@@ -86,15 +85,10 @@ namespace MyExampleGame
                 _window.SetFramerateLimit(framerateLimit);
         }
 
-        private float GetFps()
-        {
-            return 1000000.0f / _time.AsMicroseconds();
-        }
-
         public void Quit()
         {
             _world.Dispose();
-            _system.Dispose();
+            _updateSystem.Dispose();
             _window.Dispose();
         }
     }
