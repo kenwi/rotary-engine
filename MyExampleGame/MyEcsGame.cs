@@ -1,11 +1,10 @@
-﻿using System;
-using DefaultEcs;
-using DefaultEcs.System;
-using Engine.Components;
+﻿using Engine.Components;
 using Engine.Systems;
 using SFML.Graphics;
 using SFML.System;
 using SFML.Window;
+using DefaultEcs;
+using DefaultEcs.System;
 
 namespace MyExampleGame
 {
@@ -38,7 +37,7 @@ namespace MyExampleGame
             _updateSystem = new SequentialSystem<float>(
                 new GameSystem(_world)
                 , new PlayerSystem(_world, _window)
-                , new TileSystem(_world, tileSet: new Texture(64, 64), tileSize: new Vector2u(64, 64), mapSize: new Vector2u(8, 8))
+                , new TileSystem(_world, tileSet: new Texture("../../../../Assets/Tileset.png"), tileSize: new Vector2u(32, 32), mapSize: new Vector2u(64, 64))
             );
 
             _renderSystem = new SequentialSystem<(RenderTarget, RenderStates)>(

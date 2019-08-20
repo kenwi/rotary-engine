@@ -13,10 +13,12 @@ namespace Engine.Systems
         private bool _initialized;
         private int _frameCount;
         private Clock _outputTimer;
-        private Time _timeLimit;
+        private Time _fpsOutputTimeLimit;
         private World _world;
         private Window _window;
+
         private VertexArray _vertices;
+        private Texture _tileSet;
 
         public RenderSystem(World world, Window window)
         {
@@ -26,7 +28,7 @@ namespace Engine.Systems
 
         private void Initialize()
         {
-            _timeLimit = Time.FromSeconds(1);
+            _fpsOutputTimeLimit = Time.FromSeconds(1);
             _outputTimer = new Clock();
             _frameCount = 0;
             _initialized = true;
@@ -39,6 +41,10 @@ namespace Engine.Systems
                 foreach (var entity in entities.GetEntities())
                 {
                     var tile = entity.Get<Tile>();
+                    if(_tileSet == null)
+                    {
+                        _tileSet = entity.Get<Texture>();
+                    }
                     _vertices.Append(tile.Vertex1);
                     _vertices.Append(tile.Vertex2);
                     _vertices.Append(tile.Vertex3);
@@ -64,12 +70,12 @@ namespace Engine.Systems
             ref var target = ref drawInfo.target;
             ref var state = ref drawInfo.state;
 
-            target.Draw(_vertices);
+            target.Draw(_vertices, new RenderStates(_tileSet));
         }
 
         private void CalculateFps()
         {
-            if (_outputTimer.ElapsedTime > _timeLimit)
+            if (_outputTimer.ElapsedTime > _fpsOutputTimeLimit)
             {
                 Console.WriteLine(_frameCount / _outputTimer.ElapsedTime.AsSeconds());
                 _outputTimer.Restart();

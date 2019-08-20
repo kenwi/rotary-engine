@@ -5,9 +5,7 @@ namespace Engine.Components
     public struct Tile
     {
         public uint Index;
-        public uint Tu;
-        public uint Tv;
-        public uint TileNumber;
+        public int TileValue;
         public Vertex Vertex1;
         public Vertex Vertex2;
         public Vertex Vertex3;
@@ -20,15 +18,11 @@ namespace Engine.Components
         }
 
         public Tile(uint index
-            , uint tu
-            , uint tv
-            , uint tileNumber
+            , int tileNumber
             , Vertex vertex1, Vertex vertex2, Vertex vertex3, Vertex vertex4)
         {
             Index = index;
-            Tu = tu;
-            Tv = tv;
-            TileNumber = tileNumber;
+            TileValue = tileNumber;
             Vertex1 = vertex1;
             Vertex2 = vertex2;
             Vertex3 = vertex3;

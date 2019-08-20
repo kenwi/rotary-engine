@@ -30,17 +30,16 @@ namespace Engine.Systems
                 for (uint y = 0; y < _mapSize.Y; y++)
                 {
                     var index = x + y * _mapSize.X;
-                    var tileNumber = 0;
+                    int tileValue = 0;
 
-                    var tu = (uint)tileNumber % (_tileSet.Size.X / tileSize.X);
-                    var tv = (uint)tileNumber / (_tileSet.Size.X / tileSize.X);
+                    var tu = tileValue % (_tileSet.Size.X / tileSize.X);
+                    var tv = tileValue / (_tileSet.Size.X / tileSize.X);
 
                     var tile = _world.CreateEntity();
+                    tile.Set<Texture>(tileSet);
                     tile.Set<Tile>(new Tile {
                         Index = index,
-                        TileNumber = 0,
-                        Tu = tu,
-                        Tv = tv,
+                        TileValue = tileValue,
                         Vertex1 = new Vertex(new Vector2f(x * tileSize.X, y * tileSize.Y), new Vector2f(tu * tileSize.X, tv * tileSize.Y)),
                         Vertex2 = new Vertex(new Vector2f((x + 1) * tileSize.X, y * tileSize.Y), new Vector2f((tu + 1) * tileSize.X, tv * tileSize.Y)),
                         Vertex3 = new Vertex(new Vector2f((x + 1) * tileSize.X, (y + 1) * tileSize.Y), new Vector2f((tu + 1) * tileSize.X, (tv + 1) * tileSize.Y)),
