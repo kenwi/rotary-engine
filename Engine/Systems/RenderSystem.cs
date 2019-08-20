@@ -16,16 +16,12 @@ namespace Engine.Systems
         private Time _timeLimit;
         private World _world;
         private Window _window;
-        private uint _width;
-        private uint _height;
         private VertexArray _vertices;
 
-        public RenderSystem(World world, Window window, uint width, uint height)
+        public RenderSystem(World world, Window window)
         {
             _world = world;
             _window = window;
-            _width = width;
-            _height = height;
         }
 
         private void Initialize()
@@ -34,7 +30,22 @@ namespace Engine.Systems
             _outputTimer = new Clock();
             _frameCount = 0;
             _initialized = true;
-        }
+
+            _vertices = new VertexArray(PrimitiveType.Quads);
+            _vertices.Resize((uint)MathF.Sqrt(_vertices.VertexCount) * 4);
+            if (_vertices.VertexCount == 0)
+            {
+                var entities = _world.GetEntities().With<Tile>().Build();
+                foreach (var entity in entities.GetEntities())
+                {
+                    var tile = entity.Get<Tile>();
+                    _vertices.Append(tile.Vertex1);
+                    _vertices.Append(tile.Vertex2);
+                    _vertices.Append(tile.Vertex3);
+                    _vertices.Append(tile.Vertex4);
+                }
+            }
+        }   
 
         public bool IsEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
@@ -52,11 +63,8 @@ namespace Engine.Systems
 
             ref var target = ref drawInfo.target;
             ref var state = ref drawInfo.state;
-            var entities = _world.GetEntities().With<Tile>().Build();
-            foreach(var entity in entities.GetEntities())
-            {
-                var tile = entity.Get<Tile>();
-            }
+
+            target.Draw(_vertices);
         }
 
         private void CalculateFps()

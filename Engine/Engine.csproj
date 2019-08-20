@@ -1,9 +1,11 @@
+
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
+    <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="SFML.Net" Version="2.5.0"/>
-    <PackageReference Include="DefaultEcs" Version="0.11.0"/>
+    <PackageReference Include="DefaultEcs" Version="0.11.0" />
+    <PackageReference Include="SFML.Net" Version="2.5.0" />
   </ItemGroup>
 </Project>

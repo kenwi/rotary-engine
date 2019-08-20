@@ -15,12 +15,14 @@ namespace Engine.Systems
         private Vector2u _mapSize;
         private World _world;
         private Vector2u _tileSize;
+        private Texture _tileSet;
 
-        public TileSystem(World world, Vector2u tileSize, Vector2u mapSize) : base(world.GetEntities().With<Tile>().Build())
+        public TileSystem(World world, Texture tileSet, Vector2u tileSize, Vector2u mapSize) : base(world.GetEntities().With<Tile>().Build())
         {
             _world = world;
             _tileSize = tileSize;
             _mapSize = mapSize;
+            _tileSet = tileSet;
             _initialized = false;
 
             for (uint x = 0; x < _mapSize.X; x++)
@@ -28,10 +30,22 @@ namespace Engine.Systems
                 for (uint y = 0; y < _mapSize.Y; y++)
                 {
                     var index = x + y * _mapSize.X;
+                    var tileNumber = 0;
+
+                    var tu = (uint)tileNumber % (_tileSet.Size.X / tileSize.X);
+                    var tv = (uint)tileNumber / (_tileSet.Size.X / tileSize.X);
 
                     var tile = _world.CreateEntity();
-                    tile.Set<Tile>(new Tile(index));
-                    tile.Set<Position>(default);
+                    tile.Set<Tile>(new Tile {
+                        Index = index,
+                        TileNumber = 0,
+                        Tu = tu,
+                        Tv = tv,
+                        Vertex1 = new Vertex(new Vector2f(x * tileSize.X, y * tileSize.Y), new Vector2f(tu * tileSize.X, tv * tileSize.Y)),
+                        Vertex2 = new Vertex(new Vector2f((x + 1) * tileSize.X, y * tileSize.Y), new Vector2f((tu + 1) * tileSize.X, tv * tileSize.Y)),
+                        Vertex3 = new Vertex(new Vector2f((x + 1) * tileSize.X, (y + 1) * tileSize.Y), new Vector2f((tu + 1) * tileSize.X, (tv + 1) * tileSize.Y)),
+                        Vertex4 = new Vertex(new Vector2f(x * tileSize.X, (y + 1) * tileSize.Y), new Vector2f(tu * tileSize.X, (tv + 1) * tileSize.Y))
+                    });;
                 }
             }
         }

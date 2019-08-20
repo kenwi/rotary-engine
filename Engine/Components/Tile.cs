@@ -13,12 +13,17 @@ namespace Engine.Components
         public Vertex Vertex3;
         public Vertex Vertex4;
 
-        public Tile(uint index) : this()
+        public Tile(uint index) 
+            : this()
         {
             Index = index;
         }
 
-        public Tile(uint index, uint tu, uint tv, uint tileNumber, Vertex vertex1, Vertex vertex2, Vertex vertex3, Vertex vertex4)
+        public Tile(uint index
+            , uint tu
+            , uint tv
+            , uint tileNumber
+            , Vertex vertex1, Vertex vertex2, Vertex vertex3, Vertex vertex4)
         {
             Index = index;
             Tu = tu;
