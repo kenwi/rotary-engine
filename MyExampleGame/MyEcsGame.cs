@@ -38,11 +38,11 @@ namespace MyExampleGame
             _updateSystem = new SequentialSystem<float>(
                 new GameSystem(_world)
                 , new PlayerSystem(_world, _window)
-                , new TileSystem(_world, new Vector2u(64, 64), new Vector2u(8, 8))
+                , new TileSystem(_world, tileSet: new Texture(64, 64), tileSize: new Vector2u(64, 64), mapSize: new Vector2u(8, 8))
             );
 
             _renderSystem = new SequentialSystem<(RenderTarget, RenderStates)>(
-                new RenderSystem(_world, _window, 8, 8)
+                new RenderSystem(_world, _window)
             );
 
             _world.Subscribe(this);
