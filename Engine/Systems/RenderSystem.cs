@@ -75,7 +75,7 @@ namespace Engine.Systems
 
         private void CalculateFps()
         {
-            if (_outputTimer.ElapsedTime > _fpsOutputTimeLimit)
+            if (_outputTimer.ElapsedTime >= _fpsOutputTimeLimit)
             {
                 Console.WriteLine(_frameCount / _outputTimer.ElapsedTime.AsSeconds());
                 _outputTimer.Restart();

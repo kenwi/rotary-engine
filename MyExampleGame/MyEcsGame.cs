@@ -34,10 +34,14 @@ namespace MyExampleGame
             var player = _world.CreateEntity();
             player.Set<Position>(default);
 
+            var camera = _world.CreateEntity();
+            camera.Set<Camera>(new Camera(new Vector2f()));
+
             _updateSystem = new SequentialSystem<float>(
                 new GameSystem(_world)
                 , new PlayerSystem(_world, _window)
-                , new TileSystem(_world, tileSet: new Texture("../../../../Assets/Tileset.png"), tileSize: new Vector2u(32, 32), mapSize: new Vector2u(64, 64))
+                , new CameraSystem(_world, _window)
+                , new TileSystem(_world, tileSet: new Texture("../../../../Assets/Tileset.png"), tileSize: new Vector2u(32, 32), mapSize: new Vector2u(32, 32))
             );
 
             _renderSystem = new SequentialSystem<(RenderTarget, RenderStates)>(
