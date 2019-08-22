@@ -26,6 +26,11 @@ namespace Engine.Systems
         protected override void Update(float state, in Entity entity)
         {
             entity.Get<Position>().Value = _mousePosition;
+            
+            if (Keyboard.IsKeyPressed(Keyboard.Key.Escape))
+            {
+                _window.Close();
+            }
         }
     }
 }
