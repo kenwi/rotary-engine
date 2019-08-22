@@ -24,6 +24,7 @@ namespace Engine.Systems
         {
             _world = world;
             _window = window;
+            _world.Subscribe(this);
         }
 
         private void Initialize()
@@ -31,7 +32,6 @@ namespace Engine.Systems
             _fpsOutputTimeLimit = Time.FromSeconds(0.25f);
             _outputTimer = new Clock();
             _frameCount = 0;
-            _initialized = true;
 
             _vertices = new VertexArray(PrimitiveType.Quads);
             _vertices.Resize((uint)MathF.Sqrt(_vertices.VertexCount) * 4);
@@ -51,6 +51,7 @@ namespace Engine.Systems
                     _vertices.Append(tile.Vertex4);
                 }
             }
+            _initialized = true;
         }   
 
         public bool IsEnabled { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
@@ -77,7 +78,7 @@ namespace Engine.Systems
         {
             if (_outputTimer.ElapsedTime > _fpsOutputTimeLimit)
             {
-                Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] {_frameCount / _outputTimer.ElapsedTime.AsSeconds()}");
+                Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] UPS: {_frameCount / _outputTimer.ElapsedTime.AsSeconds()}");
                 _outputTimer.Restart();
                 _frameCount = 0;
             }

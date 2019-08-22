@@ -6,6 +6,8 @@ using System.Text;
 using DefaultEcs;
 using DefaultEcs.System;
 using Engine.Components;
+using SFML.System;
+using SFML.Window;
 
 namespace Engine.Systems
 {
@@ -14,6 +16,10 @@ namespace Engine.Systems
         private readonly World _world;
         private readonly EntitySet _tiles;
         private bool _initialized;
+
+        private uint _numUpdates;
+        private Clock _outputTimer;
+        private Time _updateOutputTimeLimit;
 
         public GameSystem(World world)
         {
@@ -25,6 +31,10 @@ namespace Engine.Systems
 
         private void Initialize()
         {
+            _numUpdates = 0;
+            _updateOutputTimeLimit = Time.FromSeconds(0.25f);
+            _outputTimer = new Clock();
+
             Span<Entity> tiles = stackalloc Entity[_tiles.Count];
             foreach (var tile in tiles)
             {
@@ -42,8 +52,20 @@ namespace Engine.Systems
 
         public void Update(float deltaTime)
         {
-            if(!_initialized)
+            if (!_initialized)
                 Initialize();
+            CalculateUpdateRate();
+        }
+        
+        private void CalculateUpdateRate()
+        {
+            if (_outputTimer.ElapsedTime > _updateOutputTimeLimit)
+            {
+                Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] FPS: {_numUpdates / _outputTimer.ElapsedTime.AsSeconds()}");
+                _outputTimer.Restart();
+                _numUpdates = 0;
+            }
+            _numUpdates++;
         }
     }
 }
