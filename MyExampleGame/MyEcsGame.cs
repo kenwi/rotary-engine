@@ -10,7 +10,7 @@ namespace MyExampleGame
 {
     internal sealed class MyEcsGame
     {
-        private const float UpdateLimit = 60;
+        private const float UpdateLimit = 90;
 
         private readonly Color _clearColor;
         private readonly float _updateRate;
@@ -28,6 +28,8 @@ namespace MyExampleGame
             _updateRate = 1.0f / framerateLimit;
             var style = fullScreen ? Styles.Fullscreen : Styles.Default;
             _window = new RenderWindow(new VideoMode(800, 600, 32), "DefaultTitle", style);
+            _window.Closed += (s, e) => _window.Close();
+
             SetFrameRateLimit(vSync, framerateLimit);
 
             _world = new World();
@@ -41,7 +43,9 @@ namespace MyExampleGame
                 new GameSystem(_world)
                 , new PlayerSystem(_world, _window)
                 , new CameraSystem(_world, _window)
-                , new TileSystem(_world, tileSet: new Texture("../../../../Assets/Tileset.png"), tileSize: new Vector2u(32, 32), mapSize: new Vector2u(32, 32))
+                , new TileSystem(_world
+                    , tileSet: new Texture("../Assets/Tileset.png")
+                    , tileSize: new Vector2u(32, 32), mapSize: new Vector2u(32, 32))
             );
 
             _renderSystem = new SequentialSystem<(RenderTarget, RenderStates)>(
@@ -74,13 +78,12 @@ namespace MyExampleGame
                     }
 
                     _window.Clear(_clearColor);
-                    if(_renderSystem.IsEnabled)
+                    if (_renderSystem.IsEnabled)
                         _renderSystem.Update((_window, RenderStates.Default));
                     _window.Display();
                 }
-
-                Quit();
             }
+            Quit();
         }
 
         internal void SetFrameRateLimit(bool vSync, uint framerateLimit)
