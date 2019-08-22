@@ -28,7 +28,7 @@ namespace Engine.Systems
 
         private void Initialize()
         {
-            _fpsOutputTimeLimit = Time.FromSeconds(1);
+            _fpsOutputTimeLimit = Time.FromSeconds(0.25f);
             _outputTimer = new Clock();
             _frameCount = 0;
             _initialized = true;
@@ -75,9 +75,9 @@ namespace Engine.Systems
 
         private void CalculateFps()
         {
-            if (_outputTimer.ElapsedTime >= _fpsOutputTimeLimit)
+            if (_outputTimer.ElapsedTime > _fpsOutputTimeLimit)
             {
-                Console.WriteLine(_frameCount / _outputTimer.ElapsedTime.AsSeconds());
+                Console.WriteLine($"[{DateTime.Now.ToLongTimeString()}] {_frameCount / _outputTimer.ElapsedTime.AsSeconds()}");
                 _outputTimer.Restart();
                 _frameCount = 0;
             }
