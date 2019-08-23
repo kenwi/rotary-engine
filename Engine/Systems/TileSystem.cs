@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using DefaultEcs;
 using DefaultEcs.System;
 using Engine.Components;
@@ -24,6 +25,11 @@ namespace Engine.Systems
             _mapSize = mapSize;
             _tileSet = tileSet;
             _initialized = false;
+
+            Debug.Assert(world != null);
+            Debug.Assert(_tileSize != null);
+            Debug.Assert(_mapSize != null);
+            Debug.Assert(_tileSet != null);
 
             for (uint x = 0; x < _mapSize.X; x++)
             {
