@@ -17,11 +17,11 @@ namespace Engine.Systems
             _window = window;
         }
 
-        protected override void Update(float state, in Entity entity)
+        protected override void Update(float deltaTime, in Entity entity)
         {
             var camera = entity.Get<Camera>();
             var view = _window.GetView();
-            view.Move(new Vector2f(0.0f, 0.05f));
+            view.Move(new Vector2f(0.0f * deltaTime,  10f * deltaTime));
             _window.SetView(view);
         }
     }
